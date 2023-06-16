@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using UnityEngine;
 
 namespace RuntimeHandle
@@ -21,9 +21,12 @@ namespace RuntimeHandle
         public float autoScaleFactor = 1;
         public Camera handleCamera;
 
+        public GameObject transformHandleTarget;
+        public ITransformHandleTarget target;
+
         private Vector3 _previousMousePosition;
         private HandleBase _previousAxis;
-        
+
         private HandleBase _draggingHandle;
 
         private HandleType _previousType;
@@ -33,8 +36,6 @@ namespace RuntimeHandle
         private RotationHandle _rotationHandle;
         private ScaleHandle _scaleHandle;
 
-        public Transform target;
-
         void Start()
         {
             if (handleCamera == null)
@@ -43,9 +44,29 @@ namespace RuntimeHandle
             _previousType = type;
 
             if (target == null)
-                target = transform;
+                throw new ArgumentNullException(nameof(target));
 
             CreateHandles();
+        }
+
+        public void Construct(ITransformHandleTarget p_target)
+        {
+            if (target != null)
+                throw new ArgumentException("Target already initialized!");
+            target = p_target;
+        }
+
+        private void OnValidate()
+        {
+            if (transformHandleTarget == null) return;
+            if (transformHandleTarget.TryGetComponent<ITransformHandleTarget>(out var component))
+            {
+                target = component;
+                return;
+            }
+
+            transformHandleTarget = null;
+            throw new ArgumentException($"Target must implement {nameof(ITransformHandleTarget)}!");
         }
 
         void CreateHandles()
@@ -67,7 +88,7 @@ namespace RuntimeHandle
         void Clear()
         {
             _draggingHandle = null;
-            
+
             if (_positionHandle) _positionHandle.Destroy();
             if (_rotationHandle) _rotationHandle.Destroy();
             if (_scaleHandle) _scaleHandle.Destroy();
@@ -77,8 +98,9 @@ namespace RuntimeHandle
         {
             if (autoScale)
                 transform.localScale =
-                    Vector3.one * (Vector3.Distance(handleCamera.transform.position, transform.position) * autoScaleFactor) / 15;
-            
+                    Vector3.one * (Vector3.Distance(handleCamera.transform.position, transform.position) *
+                                   autoScaleFactor) / 15;
+
             if (_previousType != type || _previousAxes != axes)
             {
                 Clear();
@@ -112,10 +134,10 @@ namespace RuntimeHandle
 
             _previousMousePosition = Input.mousePosition;
 
-            transform.position = target.transform.position;
+            transform.position = target.position;
             if (space == HandleSpace.LOCAL || type == HandleType.SCALE)
             {
-                transform.rotation = target.transform.rotation;
+                transform.rotation = target.rotation;
             }
             else
             {
@@ -125,7 +147,8 @@ namespace RuntimeHandle
 
         void HandleOverEffect(HandleBase p_axis, Vector3 p_hitPoint)
         {
-            if (_draggingHandle == null && _previousAxis != null && (_previousAxis != p_axis || !_previousAxis.CanInteract(p_hitPoint)))
+            if (_draggingHandle == null && _previousAxis != null &&
+                (_previousAxis != p_axis || !_previousAxis.CanInteract(p_hitPoint)))
             {
                 _previousAxis.SetDefaultColor();
             }
@@ -155,15 +178,6 @@ namespace RuntimeHandle
                     return;
                 }
             }
-        }
-
-        static public RuntimeTransformHandle Create(Transform p_target, HandleType p_handleType)
-        {
-            RuntimeTransformHandle runtimeTransformHandle = new GameObject().AddComponent<RuntimeTransformHandle>();
-            runtimeTransformHandle.target = p_target;
-            runtimeTransformHandle.type = p_handleType;
-
-            return runtimeTransformHandle;
         }
     }
 }
