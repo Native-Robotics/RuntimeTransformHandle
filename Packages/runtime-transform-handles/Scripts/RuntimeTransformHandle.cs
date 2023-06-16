@@ -43,17 +43,7 @@ namespace RuntimeHandle
 
             _previousType = type;
 
-            if (target == null)
-                throw new ArgumentNullException(nameof(target));
-
             CreateHandles();
-        }
-
-        public void Construct(ITransformHandleTarget p_target)
-        {
-            if (target != null)
-                throw new ArgumentException("Target already initialized!");
-            target = p_target;
         }
 
         private void OnValidate()
@@ -96,6 +86,9 @@ namespace RuntimeHandle
 
         void Update()
         {
+            if (target == null)
+                return;
+
             if (autoScale)
                 transform.localScale =
                     Vector3.one * (Vector3.Distance(handleCamera.transform.position, transform.position) *
