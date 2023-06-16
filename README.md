@@ -1,8 +1,8 @@
 # RuntimeTransformHandle
 
+Fork from https://github.com/pshtif/RuntimeTransformHandle
 Runtime transform handle for Unity.
-
-
+With this repository you can install package from git url
 
 ## Install
 
