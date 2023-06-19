@@ -26,7 +26,7 @@ namespace NativeRobotics.RuntimeTransformHandle
         private PositionHandle _positionHandle;
         private RotationHandle _rotationHandle;
         private ScaleHandle _scaleHandle;
-        private RaycastHit[] _results = new RaycastHit[10];
+        private readonly RaycastHit[] _results = new RaycastHit[2];
 
         public HandleAxes Axes
         {
@@ -174,8 +174,9 @@ namespace NativeRobotics.RuntimeTransformHandle
             if (hits == 0)
                 return;
 
-            foreach (var hit in _results)
+            for (var index = 0; index < hits; index++)
             {
+                var hit = _results[index];
                 if (hit.collider.gameObject.TryGetComponentInParent(out p_handle))
                 {
                     p_hitPoint = hit.point;
