@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace NativeRobotics.RuntimeTransformHandle
 {
@@ -83,6 +84,8 @@ namespace NativeRobotics.RuntimeTransformHandle
                 case HandleType.SCALE:
                     _scaleHandle = gameObject.AddComponent<ScaleHandle>().Initialize(this);
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
