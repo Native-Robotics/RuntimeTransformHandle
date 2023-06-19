@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace RuntimeHandle
+namespace NativeRobotics.RuntimeTransformHandle
 {
     public interface ITransformHandleTarget
     {

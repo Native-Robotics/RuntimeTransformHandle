@@ -1,0 +1,16 @@
+{
+    "name": "NativeRobotics.RuntimeTransformHandle.Samples",
+    "rootNamespace": "",
+    "references": [
+        "GUID:bd138c7a207f4ee4894d6faa1b365b8c"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

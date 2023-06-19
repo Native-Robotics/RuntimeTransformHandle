@@ -1,11 +1,8 @@
 ﻿using System;
 using UnityEngine;
 
-namespace RuntimeHandle
+namespace NativeRobotics.RuntimeTransformHandle
 {
-    /**
-     * Created by Peter @sHTiF Stefcek 21.10.2020
-     */
     public class RuntimeTransformHandle : MonoBehaviour
     {
         public HandleAxes axes = HandleAxes.XYZ;
