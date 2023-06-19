@@ -83,7 +83,7 @@ namespace NativeRobotics.RuntimeTransformHandle
             
             _startPosition = _parentTransformHandle.TargetPosition.Position;
 
-            Vector3 raxis = _parentTransformHandle.space == HandleSpace.LOCAL
+            Vector3 raxis = _parentTransformHandle.Space == HandleSpace.LOCAL
                 ? _parentTransformHandle.TargetRotation.Rotation * _axis
                 : _axis;
             

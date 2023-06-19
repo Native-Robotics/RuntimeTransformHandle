@@ -78,7 +78,7 @@ namespace NativeRobotics.RuntimeTransformHandle
                 angleRadians = angleDegrees * Mathf.Deg2Rad;
             }
 
-            if (_parentTransformHandle.space == HandleSpace.LOCAL)
+            if (_parentTransformHandle.Space == HandleSpace.LOCAL)
             {
                 _parentTransformHandle.TargetLocalRotation.LocalRotation =
                     _startRotation * Quaternion.AngleAxis(angleDegrees, _axis);
@@ -113,7 +113,7 @@ namespace NativeRobotics.RuntimeTransformHandle
 
             base.StartInteraction(p_hitPoint);
 
-            _startRotation = _parentTransformHandle.space == HandleSpace.LOCAL
+            _startRotation = _parentTransformHandle.Space == HandleSpace.LOCAL
                 ? _parentTransformHandle.TargetLocalRotation.LocalRotation
                 : _parentTransformHandle.TargetRotation.Rotation;
 
@@ -122,7 +122,7 @@ namespace NativeRobotics.RuntimeTransformHandle
             _arcMaterial.renderQueue = 5000;
             //_arcMesh.gameObject.SetActive(true);
 
-            if (_parentTransformHandle.space == HandleSpace.LOCAL)
+            if (_parentTransformHandle.Space == HandleSpace.LOCAL)
             {
                 _rotatedAxis = _startRotation * _axis;
             }

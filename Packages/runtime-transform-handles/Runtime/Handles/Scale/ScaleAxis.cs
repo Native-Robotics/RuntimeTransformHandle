@@ -94,7 +94,7 @@ namespace NativeRobotics.RuntimeTransformHandle
             base.StartInteraction(p_hitPoint);
             _startScale = _parentTransformHandle.TargetScaleTarget.LocalScale;
 
-            Vector3 raxis = _parentTransformHandle.space == HandleSpace.LOCAL
+            Vector3 raxis = _parentTransformHandle.Space == HandleSpace.LOCAL
                 ? _parentTransformHandle.TargetRotation.Rotation * _axis
                 : _axis;
             

@@ -77,7 +77,7 @@ namespace NativeRobotics.RuntimeTransformHandle
 
         public override void StartInteraction(Vector3 p_hitPoint)
         {
-            Vector3 rperp = _parentTransformHandle.space == HandleSpace.LOCAL
+            Vector3 rperp = _parentTransformHandle.Space == HandleSpace.LOCAL
                 ? _parentTransformHandle.TargetRotation.Rotation * _perp
                 : _perp;
             
@@ -96,7 +96,7 @@ namespace NativeRobotics.RuntimeTransformHandle
         private void Update()
         {
             Vector3 axis1 = _axis1;
-            Vector3 raxis1 = _parentTransformHandle.space == HandleSpace.LOCAL
+            Vector3 raxis1 = _parentTransformHandle.Space == HandleSpace.LOCAL
                 ? _parentTransformHandle.TargetRotation.Rotation * axis1
                 : axis1;
             float angle1 = Vector3.Angle(_parentTransformHandle.handleCamera.transform.forward, raxis1);
@@ -108,7 +108,7 @@ namespace NativeRobotics.RuntimeTransformHandle
             //     axis1 = -axis1;
             
             Vector3 axis2 = _axis2;
-            Vector3 raxis2 = _parentTransformHandle.space == HandleSpace.LOCAL
+            Vector3 raxis2 = _parentTransformHandle.Space == HandleSpace.LOCAL
                 ? _parentTransformHandle.TargetRotation.Rotation * axis2
                 : axis2;
             float angle2 = Vector3.Angle(_parentTransformHandle.handleCamera.transform.forward, raxis2);

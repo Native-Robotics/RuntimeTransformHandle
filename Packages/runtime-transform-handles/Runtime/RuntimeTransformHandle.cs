@@ -1,19 +1,18 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace NativeRobotics.RuntimeTransformHandle
 {
     public class RuntimeTransformHandle : MonoBehaviour
     {
-        public HandleAxes axes = HandleAxes.XYZ;
-        public HandleSpace space = HandleSpace.LOCAL;
-        public HandleType type = HandleType.POSITION;
         public HandleSnappingType snappingType = HandleSnappingType.RELATIVE;
 
         public Vector3 positionSnap = Vector3.zero;
         public float rotationSnap = 0;
         public Vector3 scaleSnap = Vector3.zero;
-
+        [SerializeField] private HandleAxes axes = HandleAxes.XYZ;
+        [SerializeField] private HandleSpace space = HandleSpace.LOCAL;
+        [SerializeField] private HandleType type = HandleType.POSITION;
+        
         public bool autoScale = false;
         public float autoScaleFactor = 1;
         public Camera handleCamera;
@@ -23,12 +22,39 @@ namespace NativeRobotics.RuntimeTransformHandle
 
         private HandleBase _draggingHandle;
 
-        private HandleType _previousType;
-        private HandleAxes _previousAxes;
-
         private PositionHandle _positionHandle;
         private RotationHandle _rotationHandle;
         private ScaleHandle _scaleHandle;
+
+        public HandleAxes Axes
+        {
+            get => axes;
+            private set
+            {
+                axes = value;
+                Recreate();
+            }
+        }
+
+        public HandleSpace Space
+        {
+            get => space;
+            private set
+            {
+                space = value;
+                Recreate();
+            }
+        }
+        
+        public HandleType Type
+        {
+            get => type;
+            private set
+            {
+                type = value;
+                Recreate();
+            }
+        }
 
         public bool IsEnabled { get; set; }
         public ITransformHandleTargetLocalRotation TargetLocalRotation { get; set; }
@@ -41,14 +67,12 @@ namespace NativeRobotics.RuntimeTransformHandle
             if (handleCamera == null)
                 handleCamera = Camera.main;
 
-            _previousType = type;
-
             CreateHandles();
         }
 
         private void CreateHandles()
         {
-            switch (type)
+            switch (Type)
             {
                 case HandleType.POSITION:
                     _positionHandle = gameObject.AddComponent<PositionHandle>().Initialize(this);
@@ -71,6 +95,12 @@ namespace NativeRobotics.RuntimeTransformHandle
             if (_scaleHandle) _scaleHandle.Destroy();
         }
 
+        private void Recreate()
+        {
+            Clear();
+            CreateHandles();
+        }
+        
         private void Update()
         {
             if (!IsEnabled)
@@ -80,14 +110,6 @@ namespace NativeRobotics.RuntimeTransformHandle
                 transform.localScale =
                     Vector3.one * (Vector3.Distance(handleCamera.transform.position, transform.position) *
                                    autoScaleFactor) / 15;
-
-            if (_previousType != type || _previousAxes != axes)
-            {
-                Clear();
-                CreateHandles();
-                _previousType = type;
-                _previousAxes = axes;
-            }
 
             HandleBase handle = null;
             Vector3 hitPoint = Vector3.zero;
@@ -115,7 +137,7 @@ namespace NativeRobotics.RuntimeTransformHandle
             _previousMousePosition = Input.mousePosition;
 
             transform.position = TargetPosition.Position;
-            if (space == HandleSpace.LOCAL || type == HandleType.SCALE)
+            if (Space == HandleSpace.LOCAL || Type == HandleType.SCALE)
             {
                 transform.rotation = TargetRotation.Rotation;
             }
