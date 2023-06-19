@@ -19,7 +19,6 @@ namespace NativeRobotics.RuntimeTransformHandle
         public Camera handleCamera;
 
         public GameObject transformHandleTarget;
-        public ITransformHandleTarget target;
 
         private Vector3 _previousMousePosition;
         private HandleBase _previousAxis;
@@ -33,6 +32,11 @@ namespace NativeRobotics.RuntimeTransformHandle
         private RotationHandle _rotationHandle;
         private ScaleHandle _scaleHandle;
 
+        public ITransformHandleTargetLocalRotation TargetLocalRotation { get; set; }
+        public ITransformHandleTargetScale TargetScaleTarget { get; set; }
+        public ITransformHandleTargetRotation TargetRotation { get; set; }
+        public ITransformHandleTargetPosition TargetPosition { get; set; }
+        
         private void Start()
         {
             if (handleCamera == null)
@@ -46,14 +50,14 @@ namespace NativeRobotics.RuntimeTransformHandle
         private void OnValidate()
         {
             if (transformHandleTarget == null) return;
-            if (transformHandleTarget.TryGetComponent<ITransformHandleTarget>(out var component))
+            if (transformHandleTarget.TryGetComponent<ITransformHandleTargetPosition>(out var component))
             {
-                target = component;
+                TargetPosition = component;
                 return;
             }
 
             transformHandleTarget = null;
-            throw new ArgumentException($"Target must implement {nameof(ITransformHandleTarget)}!");
+            throw new ArgumentException($"Target must implement {nameof(ITransformHandleTargetPosition)}!");
         }
 
         private void CreateHandles()
@@ -83,7 +87,7 @@ namespace NativeRobotics.RuntimeTransformHandle
 
         private void Update()
         {
-            if (target == null)
+            if (TargetPosition == null)
                 return;
 
             if (autoScale)
@@ -124,10 +128,10 @@ namespace NativeRobotics.RuntimeTransformHandle
 
             _previousMousePosition = Input.mousePosition;
 
-            transform.position = target.Position;
+            transform.position = TargetPosition.Position;
             if (space == HandleSpace.LOCAL || type == HandleType.SCALE)
             {
-                transform.rotation = target.Rotation;
+                transform.rotation = TargetRotation.Rotation;
             }
             else
             {

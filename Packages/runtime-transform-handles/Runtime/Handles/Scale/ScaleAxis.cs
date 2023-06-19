@@ -63,7 +63,7 @@ namespace NativeRobotics.RuntimeTransformHandle
             float   closestT = HandleMathUtils.ClosestPointOnRay(_raxisRay, cameraRay);
             Vector3 hitPoint = _raxisRay.GetPoint(closestT);
             
-            float distance = Vector3.Distance(_parentTransformHandle.target.Position, hitPoint);
+            float distance = Vector3.Distance(_parentTransformHandle.TargetPosition.Position, hitPoint);
             float axisScaleDelta    = distance / _interactionDistance - 1f;
 
             Vector3 snapping = _parentTransformHandle.scaleSnap;
@@ -84,7 +84,7 @@ namespace NativeRobotics.RuntimeTransformHandle
             delta = axisScaleDelta;
             Vector3 scale = Vector3.Scale(_startScale, _axis * axisScaleDelta + Vector3.one);
 
-            _parentTransformHandle.target.LocalScale = scale;
+            _parentTransformHandle.TargetScaleTarget.LocalScale = scale;
 
             base.Interact(p_previousPosition);
         }
@@ -92,20 +92,20 @@ namespace NativeRobotics.RuntimeTransformHandle
         public override void StartInteraction(Vector3 p_hitPoint)
         {
             base.StartInteraction(p_hitPoint);
-            _startScale = _parentTransformHandle.target.LocalScale;
+            _startScale = _parentTransformHandle.TargetScaleTarget.LocalScale;
 
             Vector3 raxis = _parentTransformHandle.space == HandleSpace.LOCAL
-                ? _parentTransformHandle.target.Rotation * _axis
+                ? _parentTransformHandle.TargetRotation.Rotation * _axis
                 : _axis;
             
-            _raxisRay = new Ray(_parentTransformHandle.target.Position, raxis);
+            _raxisRay = new Ray(_parentTransformHandle.TargetPosition.Position, raxis);
             
             Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             
             float   closestT = HandleMathUtils.ClosestPointOnRay(_raxisRay, cameraRay);
             Vector3 hitPoint = _raxisRay.GetPoint(closestT);
             
-            _interactionDistance = Vector3.Distance(_parentTransformHandle.target.Position, hitPoint);
+            _interactionDistance = Vector3.Distance(_parentTransformHandle.TargetPosition.Position, hitPoint);
         }
     }
 }

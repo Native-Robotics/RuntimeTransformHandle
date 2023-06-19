@@ -25,13 +25,13 @@ namespace NativeRobotics.RuntimeTransformHandle.Samples
             if (!Physics.Raycast(ray, out var hit)) return;
             var clickedObject = hit.collider.gameObject;
 
-            if (clickedObject.TryGetComponent<ITransformHandleTarget>(out var target))
+            if (clickedObject.TryGetComponent<ITransformHandleTargetPosition>(out var target))
                 Select(target);
         }
 
-        public void Select(ITransformHandleTarget p_target)
+        public void Select(ITransformHandleTargetPosition p_targetPosition)
         {
-            handle.target = p_target;
+            handle.TargetPosition = p_targetPosition;
             handle.gameObject.SetActive(true);
         }
 

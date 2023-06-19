@@ -1,4 +1,3 @@
-using System.IO;
 using UnityEngine;
 
 namespace NativeRobotics.RuntimeTransformHandle
@@ -37,7 +36,7 @@ namespace NativeRobotics.RuntimeTransformHandle
             Vector3 mouseVector = (Input.mousePosition - p_previousPosition);
             float d = (mouseVector.x + mouseVector.y) * Time.deltaTime * 2;
             delta += d;
-            _parentTransformHandle.target.LocalScale = _startScale + Vector3.Scale(_startScale,_axis) * delta;
+            _parentTransformHandle.TargetScaleTarget.LocalScale = _startScale + Vector3.Scale(_startScale,_axis) * delta;
             
             base.Interact(p_previousPosition);
         }
@@ -45,7 +44,7 @@ namespace NativeRobotics.RuntimeTransformHandle
         public override void StartInteraction(Vector3 p_hitPoint)
         {
             base.StartInteraction(p_hitPoint);
-            _startScale = _parentTransformHandle.target.LocalScale;
+            _startScale = _parentTransformHandle.TargetScaleTarget.LocalScale;
         }
     }
 }

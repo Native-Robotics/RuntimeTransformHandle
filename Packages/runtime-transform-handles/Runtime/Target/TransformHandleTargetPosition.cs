@@ -2,7 +2,7 @@
 
 namespace NativeRobotics.RuntimeTransformHandle
 {
-    public class TransformHandleTarget : MonoBehaviour, ITransformHandleTarget
+    public class TransformHandleTargetPosition : MonoBehaviour, ITransformHandleTargetPosition
     {
         public Quaternion LocalRotation
         {

@@ -72,7 +72,7 @@ namespace NativeRobotics.RuntimeTransformHandle
                 if (snapping.x != 0) position.z = Mathf.Round(position.z / snapping.z) * snapping.z;
             }
             
-            _parentTransformHandle.target.Position = position;
+            _parentTransformHandle.TargetPosition.Position = position;
 
             base.Interact(p_previousPosition);
         }
@@ -81,10 +81,10 @@ namespace NativeRobotics.RuntimeTransformHandle
         {
             base.StartInteraction(p_hitPoint);
             
-            _startPosition = _parentTransformHandle.target.Position;
+            _startPosition = _parentTransformHandle.TargetPosition.Position;
 
             Vector3 raxis = _parentTransformHandle.space == HandleSpace.LOCAL
-                ? _parentTransformHandle.target.Rotation * _axis
+                ? _parentTransformHandle.TargetRotation.Rotation * _axis
                 : _axis;
             
             _raxisRay = new Ray(_startPosition, raxis);
