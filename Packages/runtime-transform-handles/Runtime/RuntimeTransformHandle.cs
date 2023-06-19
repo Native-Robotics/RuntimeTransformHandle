@@ -18,8 +18,6 @@ namespace NativeRobotics.RuntimeTransformHandle
         public float autoScaleFactor = 1;
         public Camera handleCamera;
 
-        public GameObject transformHandleTarget;
-
         private Vector3 _previousMousePosition;
         private HandleBase _previousAxis;
 
@@ -45,19 +43,6 @@ namespace NativeRobotics.RuntimeTransformHandle
             _previousType = type;
 
             CreateHandles();
-        }
-
-        private void OnValidate()
-        {
-            if (transformHandleTarget == null) return;
-            if (transformHandleTarget.TryGetComponent<ITransformHandleTargetPosition>(out var component))
-            {
-                TargetPosition = component;
-                return;
-            }
-
-            transformHandleTarget = null;
-            throw new ArgumentException($"Target must implement {nameof(ITransformHandleTargetPosition)}!");
         }
 
         private void CreateHandles()
