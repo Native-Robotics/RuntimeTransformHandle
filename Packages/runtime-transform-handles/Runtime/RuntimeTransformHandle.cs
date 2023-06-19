@@ -30,6 +30,7 @@ namespace NativeRobotics.RuntimeTransformHandle
         private RotationHandle _rotationHandle;
         private ScaleHandle _scaleHandle;
 
+        public bool IsEnabled { get; set; }
         public ITransformHandleTargetLocalRotation TargetLocalRotation { get; set; }
         public ITransformHandleTargetScale TargetScaleTarget { get; set; }
         public ITransformHandleTargetRotation TargetRotation { get; set; }
@@ -72,7 +73,7 @@ namespace NativeRobotics.RuntimeTransformHandle
 
         private void Update()
         {
-            if (TargetPosition == null)
+            if (!IsEnabled)
                 return;
 
             if (autoScale)
