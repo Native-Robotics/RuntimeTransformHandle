@@ -175,9 +175,7 @@ namespace NativeRobotics.RuntimeTransformHandle
 
             foreach (RaycastHit hit in hits)
             {
-                p_handle = hit.collider.gameObject.GetComponentInParent<HandleBase>();
-
-                if (p_handle != null)
+                if (hit.collider.gameObject.TryGetComponentInParent(out p_handle))
                 {
                     p_hitPoint = hit.point;
                     return;
