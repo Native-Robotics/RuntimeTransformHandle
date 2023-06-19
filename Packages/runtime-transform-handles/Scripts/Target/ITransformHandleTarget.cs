@@ -4,9 +4,9 @@ namespace RuntimeHandle
 {
     public interface ITransformHandleTarget
     {
-        Quaternion rotation { get; set; }
-        Vector3 position { get; set; }
-        Quaternion localRotation { get; set; }
-        Vector3 localScale { get; set; }
+        Quaternion Rotation { get; set; }
+        Vector3 Position { get; set; }
+        Quaternion LocalRotation { get; set; }
+        Vector3 LocalScale { get; set; }
     }
 }

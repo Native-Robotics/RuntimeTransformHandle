@@ -127,10 +127,10 @@ namespace RuntimeHandle
 
             _previousMousePosition = Input.mousePosition;
 
-            transform.position = target.position;
+            transform.position = target.Position;
             if (space == HandleSpace.LOCAL || type == HandleType.SCALE)
             {
-                transform.rotation = target.rotation;
+                transform.rotation = target.Rotation;
             }
             else
             {

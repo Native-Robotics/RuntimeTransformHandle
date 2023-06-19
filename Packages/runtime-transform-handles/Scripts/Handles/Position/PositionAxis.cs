@@ -72,7 +72,7 @@ namespace RuntimeHandle
                 if (snapping.x != 0) position.z = Mathf.Round(position.z / snapping.z) * snapping.z;
             }
             
-            _parentTransformHandle.target.position = position;
+            _parentTransformHandle.target.Position = position;
 
             base.Interact(p_previousPosition);
         }
@@ -81,10 +81,10 @@ namespace RuntimeHandle
         {
             base.StartInteraction(p_hitPoint);
             
-            _startPosition = _parentTransformHandle.target.position;
+            _startPosition = _parentTransformHandle.target.Position;
 
             Vector3 raxis = _parentTransformHandle.space == HandleSpace.LOCAL
-                ? _parentTransformHandle.target.rotation * _axis
+                ? _parentTransformHandle.target.Rotation * _axis
                 : _axis;
             
             _raxisRay = new Ray(_startPosition, raxis);

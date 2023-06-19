@@ -63,7 +63,7 @@ namespace RuntimeHandle
             float   closestT = HandleMathUtils.ClosestPointOnRay(_raxisRay, cameraRay);
             Vector3 hitPoint = _raxisRay.GetPoint(closestT);
             
-            float distance = Vector3.Distance(_parentTransformHandle.target.position, hitPoint);
+            float distance = Vector3.Distance(_parentTransformHandle.target.Position, hitPoint);
             float axisScaleDelta    = distance / _interactionDistance - 1f;
 
             Vector3 snapping = _parentTransformHandle.scaleSnap;
@@ -84,7 +84,7 @@ namespace RuntimeHandle
             delta = axisScaleDelta;
             Vector3 scale = Vector3.Scale(_startScale, _axis * axisScaleDelta + Vector3.one);
 
-            _parentTransformHandle.target.localScale = scale;
+            _parentTransformHandle.target.LocalScale = scale;
 
             base.Interact(p_previousPosition);
         }
@@ -92,20 +92,20 @@ namespace RuntimeHandle
         public override void StartInteraction(Vector3 p_hitPoint)
         {
             base.StartInteraction(p_hitPoint);
-            _startScale = _parentTransformHandle.target.localScale;
+            _startScale = _parentTransformHandle.target.LocalScale;
 
             Vector3 raxis = _parentTransformHandle.space == HandleSpace.LOCAL
-                ? _parentTransformHandle.target.rotation * _axis
+                ? _parentTransformHandle.target.Rotation * _axis
                 : _axis;
             
-            _raxisRay = new Ray(_parentTransformHandle.target.position, raxis);
+            _raxisRay = new Ray(_parentTransformHandle.target.Position, raxis);
             
             Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
             
             float   closestT = HandleMathUtils.ClosestPointOnRay(_raxisRay, cameraRay);
             Vector3 hitPoint = _raxisRay.GetPoint(closestT);
             
-            _interactionDistance = Vector3.Distance(_parentTransformHandle.target.position, hitPoint);
+            _interactionDistance = Vector3.Distance(_parentTransformHandle.target.Position, hitPoint);
         }
     }
 }
