@@ -80,7 +80,7 @@ namespace NativeRobotics.RuntimeTransformHandle
 
             if (_parentTransformHandle.space == HandleSpace.LOCAL)
             {
-                _parentTransformHandle.TargetLocalRotation.Rotation =
+                _parentTransformHandle.TargetLocalRotation.LocalRotation =
                     _startRotation * Quaternion.AngleAxis(angleDegrees, _axis);
             }
             else
@@ -114,7 +114,7 @@ namespace NativeRobotics.RuntimeTransformHandle
             base.StartInteraction(p_hitPoint);
 
             _startRotation = _parentTransformHandle.space == HandleSpace.LOCAL
-                ? _parentTransformHandle.TargetLocalRotation.Rotation
+                ? _parentTransformHandle.TargetLocalRotation.LocalRotation
                 : _parentTransformHandle.TargetRotation.Rotation;
 
             _arcMaterial = new Material(Shader.Find("sHTiF/HandleShader"));
