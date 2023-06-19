@@ -1,5 +1,4 @@
-﻿using NativeRobotics.RuntimeTransformHandle;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace NativeRobotics.RuntimeTransformHandle.Samples
 {
@@ -8,45 +7,31 @@ namespace NativeRobotics.RuntimeTransformHandle.Samples
      */
     public class RuntimeTransformHandleController : MonoBehaviour
     {
-        [SerializeField] private  RuntimeTransformHandle handle;
-        
+        [SerializeField] private RuntimeTransformHandle handle;
 
-        private Camera mainCamera;
-        
+        private Camera _mainCamera;
+
         private void Start()
         {
-            // Получаем ссылку на главную камеру
-            mainCamera = Camera.main;
+            _mainCamera = Camera.main;
         }
 
-        // Update is called once per frame
-
-        void Update()
+        private void Update()
         {
-            if (Input.GetMouseButtonDown(0))
-            {
-                // Создаем луч из позиции нажатия мыши или экрана
-                Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
+            if (!Input.GetMouseButtonDown(0)) return;
 
-                // Проверяем столкновение луча с объектом
-                if (Physics.Raycast(ray, out hit))
-                {
-                    // Получаем ссылку на объект, с которым произошло столкновение
-                    GameObject clickedObject = hit.collider.gameObject;
+            var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
 
-                    // Возвращаем объект
-                    if (clickedObject.TryGetComponent<ITransformHandleTarget>(out var target))
-                    {
-                        Select(target);
-                    }
-                }
-            }
+            if (!Physics.Raycast(ray, out var hit)) return;
+            var clickedObject = hit.collider.gameObject;
+
+            if (clickedObject.TryGetComponent<ITransformHandleTarget>(out var target))
+                Select(target);
         }
 
-        public void Select(ITransformHandleTarget target)
+        public void Select(ITransformHandleTarget p_target)
         {
-            handle.target = target;
+            handle.target = p_target;
             handle.gameObject.SetActive(true);
         }
 
