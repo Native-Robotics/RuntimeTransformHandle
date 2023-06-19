@@ -45,7 +45,7 @@ namespace NativeRobotics.RuntimeTransformHandle
             return this;
         }
 
-        void OnGlobalInteractionStart()
+        private void OnGlobalInteractionStart()
         {
             foreach (ScaleAxis axis in _axes)
             {
@@ -53,7 +53,7 @@ namespace NativeRobotics.RuntimeTransformHandle
             }
         }
 
-        void OnGlobalInteractionUpdate(float p_delta)
+        private void OnGlobalInteractionUpdate(float p_delta)
         {
             foreach (ScaleAxis axis in _axes)
             {
@@ -61,7 +61,7 @@ namespace NativeRobotics.RuntimeTransformHandle
             }
         }
 
-        void OnGlobalInteractionEnd()
+        private void OnGlobalInteractionEnd()
         {
             foreach (ScaleAxis axis in _axes)
             {

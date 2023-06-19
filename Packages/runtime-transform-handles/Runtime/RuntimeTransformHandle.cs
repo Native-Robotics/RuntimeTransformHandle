@@ -33,7 +33,7 @@ namespace NativeRobotics.RuntimeTransformHandle
         private RotationHandle _rotationHandle;
         private ScaleHandle _scaleHandle;
 
-        void Start()
+        private void Start()
         {
             if (handleCamera == null)
                 handleCamera = Camera.main;
@@ -56,7 +56,7 @@ namespace NativeRobotics.RuntimeTransformHandle
             throw new ArgumentException($"Target must implement {nameof(ITransformHandleTarget)}!");
         }
 
-        void CreateHandles()
+        private void CreateHandles()
         {
             switch (type)
             {
@@ -72,7 +72,7 @@ namespace NativeRobotics.RuntimeTransformHandle
             }
         }
 
-        void Clear()
+        private void Clear()
         {
             _draggingHandle = null;
 
@@ -81,7 +81,7 @@ namespace NativeRobotics.RuntimeTransformHandle
             if (_scaleHandle) _scaleHandle.Destroy();
         }
 
-        void Update()
+        private void Update()
         {
             if (target == null)
                 return;
@@ -135,7 +135,7 @@ namespace NativeRobotics.RuntimeTransformHandle
             }
         }
 
-        void HandleOverEffect(HandleBase p_axis, Vector3 p_hitPoint)
+        private void HandleOverEffect(HandleBase p_axis, Vector3 p_hitPoint)
         {
             if (_draggingHandle == null && _previousAxis != null &&
                 (_previousAxis != p_axis || !_previousAxis.CanInteract(p_hitPoint)))

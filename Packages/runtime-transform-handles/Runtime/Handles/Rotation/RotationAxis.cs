@@ -148,7 +148,7 @@ namespace NativeRobotics.RuntimeTransformHandle
             delta = 0;
         }
 
-        void DrawArc()
+        private void DrawArc()
         {
             // _arcMaterial.SetPass(0);
             // Graphics.DrawMeshNow(_arcMesh, Matrix4x4.identity);

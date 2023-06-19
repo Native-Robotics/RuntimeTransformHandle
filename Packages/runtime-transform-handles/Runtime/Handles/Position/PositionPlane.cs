@@ -93,7 +93,7 @@ namespace NativeRobotics.RuntimeTransformHandle
             _interactionOffset = _startPosition - hitPoint;
         }
 
-        void Update()
+        private void Update()
         {
             Vector3 axis1 = _axis1;
             Vector3 raxis1 = _parentTransformHandle.space == HandleSpace.LOCAL
