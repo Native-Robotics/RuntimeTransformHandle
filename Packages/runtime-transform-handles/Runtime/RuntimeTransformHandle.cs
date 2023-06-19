@@ -26,6 +26,7 @@ namespace NativeRobotics.RuntimeTransformHandle
         private PositionHandle _positionHandle;
         private RotationHandle _rotationHandle;
         private ScaleHandle _scaleHandle;
+        private RaycastHit[] _results = new RaycastHit[10];
 
         public HandleAxes Axes
         {
@@ -168,12 +169,12 @@ namespace NativeRobotics.RuntimeTransformHandle
 
         private void GetHandle(ref HandleBase p_handle, ref Vector3 p_hitPoint)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit[] hits = Physics.RaycastAll(ray);
-            if (hits.Length == 0)
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            var hits = Physics.RaycastNonAlloc(ray, _results);
+            if (hits == 0)
                 return;
 
-            foreach (RaycastHit hit in hits)
+            foreach (var hit in _results)
             {
                 if (hit.collider.gameObject.TryGetComponentInParent(out p_handle))
                 {
