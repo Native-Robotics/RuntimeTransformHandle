@@ -22,22 +22,36 @@ namespace NativeRobotics.RuntimeTransformHandle.Samples
 
             var ray = _mainCamera.ScreenPointToRay(Input.mousePosition);
 
-            if (!Physics.Raycast(ray, out var hit)) return;
+            if (!Physics.Raycast(ray, out var hit))
+            {
+                Deselect();
+                return;
+            }
+
             var clickedObject = hit.collider.gameObject;
 
-            if (clickedObject.TryGetComponent<ITransformHandleTargetPosition>(out var target))
-                Select(target);
+            var targetPositionExists =
+                clickedObject.TryGetComponent<ITransformHandleTargetPosition>(out var targetPosition);
+            if (targetPositionExists) handle.TargetPosition = targetPosition;
+
+            var targetRotationExists =
+                clickedObject.TryGetComponent<ITransformHandleTargetRotation>(out var targetRotation);
+            if (targetRotationExists) handle.TargetRotation = targetRotation;
+
+            var targetLocalRotationExists =
+                clickedObject.TryGetComponent<ITransformHandleTargetLocalRotation>(out var targetLocalRotation);
+            if (targetLocalRotationExists) handle.TargetLocalRotation = targetLocalRotation;
+
+            var targetScaleExists =
+                clickedObject.TryGetComponent<ITransformHandleTargetScale>(out var targetScale);
+            if (targetScaleExists) handle.TargetScaleTarget = targetScale;
+
+            if (targetPositionExists || targetRotationExists || targetLocalRotationExists || targetScaleExists)
+                Select();
         }
 
-        public void Select(ITransformHandleTargetPosition p_targetPosition)
-        {
-            handle.TargetPosition = p_targetPosition;
-            handle.SetEnabled(true);
-        }
+        private void Select() => handle.SetEnabled(true);
 
-        public void Deselect()
-        {
-            handle.SetEnabled(false);
-        }
+        private void Deselect() => handle.SetEnabled(false);
     }
 }
