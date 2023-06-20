@@ -380,17 +380,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ecfa17e94c9ff9c47b43ede109092ac1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  axes: 6
-  space: 1
-  type: 0
   snappingType: 0
   positionSnap: {x: 0, y: 0, z: 0}
   rotationSnap: 0
   scaleSnap: {x: 0, y: 0, z: 0}
+  axes: 6
+  space: 0
+  type: 0
   autoScale: 0
   autoScaleFactor: 1
   handleCamera: {fileID: 0}
-  transformHandleTarget: {fileID: 0}
 --- !u!4 &1433307801
 Transform:
   m_ObjectHideFlags: 0
