@@ -63,6 +63,10 @@ namespace Shtif.RuntimeTransformHandle
         public ITransformHandleTargetRotation TargetRotation { get; set; }
         public ITransformHandleTargetPosition TargetPosition { get; set; }
 
+        public event Action StartInteraction;
+        public event Action Interact;
+        public event Action EndInteraction;
+        
         public void SetEnabled(bool p_isEnable)
         {
             _isEnabled = p_isEnable;
@@ -129,18 +133,21 @@ namespace Shtif.RuntimeTransformHandle
             if (Input.GetMouseButton(0) && _draggingHandle != null)
             {
                 _draggingHandle.Interact(_previousMousePosition);
+                StartInteraction?.Invoke();
             }
 
             if (Input.GetMouseButtonDown(0) && handle != null)
             {
                 _draggingHandle = handle;
                 _draggingHandle.StartInteraction(hitPoint);
+                Interact?.Invoke();
             }
 
             if (Input.GetMouseButtonUp(0) && _draggingHandle != null)
             {
                 _draggingHandle.EndInteraction();
                 _draggingHandle = null;
+                EndInteraction?.Invoke();
             }
 
             _previousMousePosition = Input.mousePosition;
