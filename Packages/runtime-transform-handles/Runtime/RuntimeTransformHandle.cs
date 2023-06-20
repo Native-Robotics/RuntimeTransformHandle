@@ -22,7 +22,7 @@ namespace NativeRobotics.RuntimeTransformHandle
         private HandleBase _previousAxis;
 
         private HandleBase _draggingHandle;
-
+        private bool _isEnabled;
         private PositionHandle _positionHandle;
         private RotationHandle _rotationHandle;
         private ScaleHandle _scaleHandle;
@@ -57,12 +57,17 @@ namespace NativeRobotics.RuntimeTransformHandle
                 Recreate();
             }
         }
-
-        public bool IsEnabled { get; set; }
+        
         public ITransformHandleTargetLocalRotation TargetLocalRotation { get; set; }
         public ITransformHandleTargetScale TargetScaleTarget { get; set; }
         public ITransformHandleTargetRotation TargetRotation { get; set; }
         public ITransformHandleTargetPosition TargetPosition { get; set; }
+
+        public void SetEnabled(bool p_isEnable)
+        {
+            _isEnabled = p_isEnable;
+            gameObject.SetActive(p_isEnable);
+        }
         
         private void Start()
         {
@@ -107,7 +112,7 @@ namespace NativeRobotics.RuntimeTransformHandle
         
         private void Update()
         {
-            if (!IsEnabled)
+            if (!_isEnabled)
                 return;
 
             if (autoScale)

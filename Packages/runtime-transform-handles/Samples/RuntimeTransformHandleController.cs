@@ -32,12 +32,12 @@ namespace NativeRobotics.RuntimeTransformHandle.Samples
         public void Select(ITransformHandleTargetPosition p_targetPosition)
         {
             handle.TargetPosition = p_targetPosition;
-            handle.gameObject.SetActive(true);
+            handle.SetEnabled(true);
         }
 
         public void Deselect()
         {
-            handle.gameObject.SetActive(false);
+            handle.SetEnabled(false);
         }
     }
 }
