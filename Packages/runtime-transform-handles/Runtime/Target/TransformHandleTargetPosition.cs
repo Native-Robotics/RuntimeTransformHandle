@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace NativeRobotics.RuntimeTransformHandle
+namespace Shtif.RuntimeTransformHandle
 {
     public class TransformHandleTargetPosition : MonoBehaviour,
         ITransformHandleTargetPosition,

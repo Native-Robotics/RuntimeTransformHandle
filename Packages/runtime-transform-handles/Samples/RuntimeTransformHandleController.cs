@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace NativeRobotics.RuntimeTransformHandle.Samples
+namespace Shtif.RuntimeTransformHandle.Samples
 {
     /**
      * Created by Peter @sHTiF Stefcek 21.10.2020

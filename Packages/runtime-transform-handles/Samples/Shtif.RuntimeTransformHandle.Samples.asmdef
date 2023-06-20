@@ -1,5 +1,5 @@
 {
-    "name": "NativeRobotics.RuntimeTransformHandle.Samples",
+    "name": "Shtif.RuntimeTransformHandle.Samples",
     "rootNamespace": "",
     "references": [
         "GUID:bd138c7a207f4ee4894d6faa1b365b8c"
