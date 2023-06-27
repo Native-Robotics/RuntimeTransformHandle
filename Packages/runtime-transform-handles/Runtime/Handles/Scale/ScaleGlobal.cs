@@ -20,7 +20,7 @@ namespace Shtif.RuntimeTransformHandle
 
             transform.SetParent(p_parentTransformHandle.transform, false);
 
-            GameObject o = new GameObject();
+            GameObject o = _parentTransformHandle.CreateGameObject();
             o.transform.SetParent(transform, false);
             MeshRenderer mr = o.AddComponent<MeshRenderer>();
             mr.material = _material;

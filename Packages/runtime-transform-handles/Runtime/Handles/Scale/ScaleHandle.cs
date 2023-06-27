@@ -21,20 +21,20 @@ namespace Shtif.RuntimeTransformHandle
             _axes = new List<ScaleAxis>();
             
             if (_parentTransformHandle.Axes == HandleAxes.X || _parentTransformHandle.Axes == HandleAxes.XY || _parentTransformHandle.Axes == HandleAxes.XZ || _parentTransformHandle.Axes == HandleAxes.XYZ)
-                _axes.Add(new GameObject().AddComponent<ScaleAxis>()
+                _axes.Add(CreateGameObject().AddComponent<ScaleAxis>()
                     .Initialize(_parentTransformHandle, Vector3.right, Color.red));
             
             if (_parentTransformHandle.Axes == HandleAxes.Y || _parentTransformHandle.Axes == HandleAxes.XY || _parentTransformHandle.Axes == HandleAxes.YZ || _parentTransformHandle.Axes == HandleAxes.XYZ)
-                _axes.Add(new GameObject().AddComponent<ScaleAxis>()
+                _axes.Add(CreateGameObject().AddComponent<ScaleAxis>()
                     .Initialize(_parentTransformHandle, Vector3.up, Color.green));
 
             if (_parentTransformHandle.Axes == HandleAxes.Z || _parentTransformHandle.Axes == HandleAxes.XZ || _parentTransformHandle.Axes == HandleAxes.YZ || _parentTransformHandle.Axes == HandleAxes.XYZ)
-                _axes.Add(new GameObject().AddComponent<ScaleAxis>()
+                _axes.Add(CreateGameObject().AddComponent<ScaleAxis>()
                     .Initialize(_parentTransformHandle, Vector3.forward, Color.blue));
 
             if (_parentTransformHandle.Axes != HandleAxes.X && _parentTransformHandle.Axes != HandleAxes.Y && _parentTransformHandle.Axes != HandleAxes.Z)
             {
-                _globalAxis = new GameObject().AddComponent<ScaleGlobal>()
+                _globalAxis = CreateGameObject().AddComponent<ScaleGlobal>()
                     .Initialize(_parentTransformHandle, HandleBase.GetVectorFromAxes(_parentTransformHandle.Axes), Color.white);
                 
                 _globalAxis.InteractionStart += OnGlobalInteractionStart;
@@ -44,7 +44,9 @@ namespace Shtif.RuntimeTransformHandle
 
             return this;
         }
-
+        
+        private GameObject CreateGameObject() => _parentTransformHandle.CreateGameObject();
+        
         private void OnGlobalInteractionStart()
         {
             foreach (ScaleAxis axis in _axes)

@@ -27,7 +27,7 @@ namespace Shtif.RuntimeTransformHandle
 
             transform.SetParent(p_parentTransformHandle.transform, false);
 
-            GameObject o = new GameObject();
+            GameObject o = _parentTransformHandle.CreateGameObject();
             o.transform.SetParent(transform, false);
             MeshRenderer mr = o.AddComponent<MeshRenderer>();
             mr.material = _material;
@@ -37,7 +37,7 @@ namespace Shtif.RuntimeTransformHandle
             mc.sharedMesh = MeshUtils.CreateCone(p_axis.magnitude * SIZE, .1f, .02f, 8, 1);
             o.transform.localRotation = Quaternion.FromToRotation(Vector3.up, p_axis);
 
-            o = new GameObject();
+            o = _parentTransformHandle.CreateGameObject();
             o.transform.SetParent(transform, false);
             mr = o.AddComponent<MeshRenderer>();
             mr.material = _material;

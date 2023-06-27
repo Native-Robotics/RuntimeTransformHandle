@@ -19,19 +19,21 @@ namespace Shtif.RuntimeTransformHandle
             _axes = new List<RotationAxis>();
             
             if (_parentTransformHandle.Axes == HandleAxes.X || _parentTransformHandle.Axes == HandleAxes.XY || _parentTransformHandle.Axes == HandleAxes.XZ || _parentTransformHandle.Axes == HandleAxes.XYZ)
-                _axes.Add(new GameObject().AddComponent<RotationAxis>()
+                _axes.Add(CreateGameObject().AddComponent<RotationAxis>()
                     .Initialize(_parentTransformHandle, Vector3.right, Color.red));
             
             if (_parentTransformHandle.Axes == HandleAxes.Y || _parentTransformHandle.Axes == HandleAxes.XY || _parentTransformHandle.Axes == HandleAxes.YZ || _parentTransformHandle.Axes == HandleAxes.XYZ)
-                _axes.Add(new GameObject().AddComponent<RotationAxis>()
+                _axes.Add(CreateGameObject().AddComponent<RotationAxis>()
                     .Initialize(_parentTransformHandle, Vector3.up, Color.green));
 
             if (_parentTransformHandle.Axes == HandleAxes.Z || _parentTransformHandle.Axes == HandleAxes.YZ || _parentTransformHandle.Axes == HandleAxes.XZ || _parentTransformHandle.Axes == HandleAxes.XYZ)
-                _axes.Add(new GameObject().AddComponent<RotationAxis>()
+                _axes.Add(CreateGameObject().AddComponent<RotationAxis>()
                     .Initialize(_parentTransformHandle, Vector3.forward, Color.blue));
 
             return this;
         }
+
+        private GameObject CreateGameObject() => _parentTransformHandle.CreateGameObject();
 
         public void Destroy()
         {
