@@ -80,7 +80,7 @@ namespace Shtif.RuntimeTransformHandle
                 handleCamera = Camera.main;
 
             CreateHandles();
-            gameObject.layer = 1 << LayerMask;
+            gameObject.layer = LayerMask.GetMask();
         }
 
         private void CreateHandles()
@@ -203,7 +203,7 @@ namespace Shtif.RuntimeTransformHandle
         {
             var go = new GameObject
             {
-                layer = 1 << LayerMask
+                layer = LayerMask.GetMask()
             };
             return go;
         }
