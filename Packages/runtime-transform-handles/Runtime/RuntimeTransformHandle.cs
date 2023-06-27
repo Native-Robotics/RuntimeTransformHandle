@@ -70,7 +70,6 @@ namespace Shtif.RuntimeTransformHandle
         public void SetEnabled(bool p_isEnable)
         {
             _isEnabled = p_isEnable;
-            gameObject.SetActive(p_isEnable);
         }
 
         private void Start()
@@ -79,7 +78,6 @@ namespace Shtif.RuntimeTransformHandle
                 handleCamera = Camera.main;
 
             CreateHandles();
-            gameObject.layer = LayerMask.GetMask();
         }
 
         private void CreateHandles()
