@@ -13,7 +13,6 @@ namespace Shtif.RuntimeTransformHandle
         [SerializeField] private HandleAxes axes = HandleAxes.XYZ;
         [SerializeField] private HandleSpace space = HandleSpace.LOCAL;
         [SerializeField] private HandleType type = HandleType.POSITION;
-        [field: SerializeField] public LayerMask LayerMask { get; private set; }
 
         public bool autoScale = false;
         public float autoScaleFactor = 1;
@@ -203,7 +202,7 @@ namespace Shtif.RuntimeTransformHandle
         {
             var go = new GameObject
             {
-                layer = LayerMask.GetMask()
+                layer = gameObject.layer
             };
             return go;
         }
