@@ -14,7 +14,7 @@ namespace Shtif.RuntimeTransformHandle
         [SerializeField] private HandleSpace space = HandleSpace.LOCAL;
         [SerializeField] private HandleType type = HandleType.POSITION;
         [field: SerializeField] public LayerMask LayerMask { get; private set; }
-        
+
         public bool autoScale = false;
         public float autoScaleFactor = 1;
         public Camera handleCamera;
@@ -48,7 +48,7 @@ namespace Shtif.RuntimeTransformHandle
                 Recreate();
             }
         }
-        
+
         public HandleType Type
         {
             get => type;
@@ -58,7 +58,7 @@ namespace Shtif.RuntimeTransformHandle
                 Recreate();
             }
         }
-        
+
         public ITransformHandleTargetLocalRotation TargetLocalRotation { get; set; }
         public ITransformHandleTargetScale TargetScaleTarget { get; set; }
         public ITransformHandleTargetRotation TargetRotation { get; set; }
@@ -67,13 +67,13 @@ namespace Shtif.RuntimeTransformHandle
         public event Action StartInteraction;
         public event Action Interact;
         public event Action EndInteraction;
-        
+
         public void SetEnabled(bool p_isEnable)
         {
             _isEnabled = p_isEnable;
             gameObject.SetActive(p_isEnable);
         }
-        
+
         private void Start()
         {
             if (handleCamera == null)
@@ -115,7 +115,7 @@ namespace Shtif.RuntimeTransformHandle
             Clear();
             CreateHandles();
         }
-        
+
         private void Update()
         {
             if (!_isEnabled)
@@ -203,7 +203,7 @@ namespace Shtif.RuntimeTransformHandle
         {
             var go = new GameObject
             {
-                layer = LayerMask
+                layer = 1 << LayerMask
             };
             return go;
         }
