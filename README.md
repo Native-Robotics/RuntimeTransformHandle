@@ -2,7 +2,10 @@
 
 Fork from https://github.com/pshtif/RuntimeTransformHandle \
 Runtime transform handle for Unity. \
-With this repository you can install package from git url
+Improve API via using interfaces. \
+Interact events added. \
+When setting layer to runtime transform handle object
+other objects that will spawn will have the same layer. 
 
 ## Install
 
