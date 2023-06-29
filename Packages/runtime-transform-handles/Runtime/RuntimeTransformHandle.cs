@@ -181,7 +181,7 @@ namespace Shtif.RuntimeTransformHandle
 
         private void GetHandle(ref HandleBase pHandle, ref Vector3 pHitPoint)
         {
-            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            var ray = _camera.ScreenPointToRay(Input.mousePosition);
             var hits = Physics.RaycastNonAlloc(ray, _results);
             if (hits == 0)
                 return;
