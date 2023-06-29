@@ -13,62 +13,55 @@ namespace Shtif.RuntimeTransformHandle
         public event Action InteractionEnd;
         public event Action<float> InteractionUpdate;
         
-        protected RuntimeTransformHandle _parentTransformHandle;
-
-        protected Color _defaultColor;
-
-        protected Material _material;
-
-        protected Vector3 _hitPoint;
-
-        protected bool _isInteracting = false;
+        protected RuntimeTransformHandle ParentTransformHandle;
+        protected Color DefaultColor;
+        protected Material Material;
+        protected Vector3 HitPoint;
 
         public float delta;
 
         protected virtual void InitializeMaterial()
         {
-            _material = new Material(Shader.Find("sHTiF/HandleShader"));
-            _material.color = _defaultColor;
+            Material = new Material(Shader.Find("sHTiF/HandleShader"));
+            Material.color = DefaultColor;
         }
         
         public void SetDefaultColor()
         {
-            _material.color = _defaultColor;
+            Material.color = DefaultColor;
         }
         
-        public void SetColor(Color p_color)
+        public void SetColor(Color pColor)
         {
-            _material.color = p_color;
+            Material.color = pColor;
         }
         
-        public virtual void StartInteraction(Vector3 p_hitPoint)
+        public virtual void StartInteraction(Vector3 hitPoint)
         {
-            _hitPoint = p_hitPoint;
+            HitPoint = hitPoint;
             InteractionStart?.Invoke();
-            _isInteracting = true;
         }
 
-        public virtual bool CanInteract(Vector3 p_hitPoint)
+        public virtual bool CanInteract(Vector3 hitPoint)
         {
             return true;
         }
         
-        public virtual void Interact(Vector3 p_previousPosition)
+        public virtual void Interact(Vector3 previousPosition)
         {
             InteractionUpdate?.Invoke(delta);
         }
 
         public virtual void EndInteraction()
         {
-            _isInteracting = false;
             InteractionEnd?.Invoke();
             delta = 0;
             SetDefaultColor();
         }
 
-        static public Vector3 GetVectorFromAxes(HandleAxes p_axes)
+        public static Vector3 GetVectorFromAxes(HandleAxes axes)
         {
-            switch (p_axes)
+            switch (axes)
             {
                 case HandleAxes.X:
                     return new Vector3(1,0,0);

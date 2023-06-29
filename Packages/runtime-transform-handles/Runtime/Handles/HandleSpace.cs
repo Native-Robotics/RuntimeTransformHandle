@@ -5,7 +5,7 @@ namespace Shtif.RuntimeTransformHandle
      */
     public enum HandleSpace
     {
-        WORLD,
-        LOCAL
+        World,
+        Local
     }
 }

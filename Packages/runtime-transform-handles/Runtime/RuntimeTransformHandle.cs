@@ -5,14 +5,14 @@ namespace Shtif.RuntimeTransformHandle
 {
     public class RuntimeTransformHandle : MonoBehaviour
     {
-        public HandleSnappingType snappingType = HandleSnappingType.RELATIVE;
+        public HandleSnappingType snappingType = HandleSnappingType.Relative;
 
         public Vector3 positionSnap = Vector3.zero;
         public float rotationSnap = 0;
         public Vector3 scaleSnap = Vector3.zero;
         [SerializeField] private HandleAxes axes = HandleAxes.XYZ;
-        [SerializeField] private HandleSpace space = HandleSpace.LOCAL;
-        [SerializeField] private HandleType type = HandleType.POSITION;
+        [SerializeField] private HandleSpace space = HandleSpace.Local;
+        [SerializeField] private HandleType type = HandleType.Position;
 
         public bool autoScale = false;
         public float autoScaleFactor = 1;
@@ -27,7 +27,8 @@ namespace Shtif.RuntimeTransformHandle
         private RotationHandle _rotationHandle;
         private ScaleHandle _scaleHandle;
         private readonly RaycastHit[] _results = new RaycastHit[2];
-
+        private readonly Camera _camera = Camera.main;
+        
         public HandleAxes Axes
         {
             get => axes;
@@ -67,9 +68,9 @@ namespace Shtif.RuntimeTransformHandle
         public event Action Interact;
         public event Action EndInteraction;
 
-        public void SetEnabled(bool p_isEnable)
+        public void SetEnabled(bool pIsEnable)
         {
-            _isEnabled = p_isEnable;
+            _isEnabled = pIsEnable;
         }
 
         private void Start()
@@ -84,14 +85,14 @@ namespace Shtif.RuntimeTransformHandle
         {
             switch (Type)
             {
-                case HandleType.POSITION:
-                    _positionHandle = gameObject.AddComponent<PositionHandle>().Construct(this);
+                case HandleType.Position:
+                    _positionHandle = gameObject.AddComponent<PositionHandle>().Construct(_camera, this);
                     break;
-                case HandleType.ROTATION:
-                    _rotationHandle = gameObject.AddComponent<RotationHandle>().Initialize(this);
+                case HandleType.Rotation:
+                    _rotationHandle = gameObject.AddComponent<RotationHandle>().Construct(_camera, this);
                     break;
-                case HandleType.SCALE:
-                    _scaleHandle = gameObject.AddComponent<ScaleHandle>().Initialize(this);
+                case HandleType.Scale:
+                    _scaleHandle = gameObject.AddComponent<ScaleHandle>().Construct(_camera, this);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -152,7 +153,7 @@ namespace Shtif.RuntimeTransformHandle
             _previousMousePosition = Input.mousePosition;
 
             transform.position = TargetPosition.Position;
-            if (Space == HandleSpace.LOCAL || Type == HandleType.SCALE)
+            if (Space == HandleSpace.Local || Type == HandleType.Scale)
             {
                 transform.rotation = TargetRotation.Rotation;
             }
@@ -162,23 +163,23 @@ namespace Shtif.RuntimeTransformHandle
             }
         }
 
-        private void HandleOverEffect(HandleBase p_axis, Vector3 p_hitPoint)
+        private void HandleOverEffect(HandleBase pAxis, Vector3 pHitPoint)
         {
             if (_draggingHandle == null && _previousAxis != null &&
-                (_previousAxis != p_axis || !_previousAxis.CanInteract(p_hitPoint)))
+                (_previousAxis != pAxis || !_previousAxis.CanInteract(pHitPoint)))
             {
                 _previousAxis.SetDefaultColor();
             }
 
-            if (p_axis != null && _draggingHandle == null && p_axis.CanInteract(p_hitPoint))
+            if (pAxis != null && _draggingHandle == null && pAxis.CanInteract(pHitPoint))
             {
-                p_axis.SetColor(Color.yellow);
+                pAxis.SetColor(Color.yellow);
             }
 
-            _previousAxis = p_axis;
+            _previousAxis = pAxis;
         }
 
-        private void GetHandle(ref HandleBase p_handle, ref Vector3 p_hitPoint)
+        private void GetHandle(ref HandleBase pHandle, ref Vector3 pHitPoint)
         {
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             var hits = Physics.RaycastNonAlloc(ray, _results);
@@ -188,9 +189,9 @@ namespace Shtif.RuntimeTransformHandle
             for (var index = 0; index < hits; index++)
             {
                 var hit = _results[index];
-                if (hit.collider.gameObject.TryGetComponentInParent(out p_handle))
+                if (hit.collider.gameObject.TryGetComponentInParent(out pHandle))
                 {
-                    p_hitPoint = hit.point;
+                    pHitPoint = hit.point;
                     return;
                 }
             }

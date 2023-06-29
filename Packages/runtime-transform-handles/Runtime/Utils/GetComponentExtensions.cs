@@ -4,10 +4,10 @@ namespace Shtif.RuntimeTransformHandle
 {
     public static class GetComponentExtensions
     {
-        public static bool TryGetComponentInParent<T>(this GameObject p_gameObject, out T p_result)
+        public static bool TryGetComponentInParent<T>(this GameObject pGameObject, out T pResult)
         {
-            p_result = p_gameObject.GetComponentInParent<T>();
-            return p_result != null;
+            pResult = pGameObject.GetComponentInParent<T>();
+            return pResult != null;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Shtif.RuntimeTransformHandle
         private static readonly Color Red = Color.red;
         private static readonly Color Green = Color.green;
 
-        public void Construct(RuntimeTransformHandle parentTransformHandle)
+        public PositionHandle Construct(Camera cam, RuntimeTransformHandle parentTransformHandle)
         {
             _parentTransformHandle = parentTransformHandle;
             transform.SetParent(_parentTransformHandle.transform, false);
@@ -26,29 +26,31 @@ namespace Shtif.RuntimeTransformHandle
 
             if (_parentTransformHandle.Axes is HandleAxes.X or HandleAxes.XY or HandleAxes.XZ or HandleAxes.XYZ)
                 _axes.Add(CreatePositionAxis()
-                    .Initialize(_parentTransformHandle, Vector3.right, Red));
+                    .Construct(cam, _parentTransformHandle, Vector3.right, Red));
 
             if (_parentTransformHandle.Axes is HandleAxes.Y or HandleAxes.XY or HandleAxes.YZ or HandleAxes.XYZ)
                 _axes.Add(CreatePositionAxis()
-                    .Initialize(_parentTransformHandle, Vector3.up, Green));
+                    .Construct(cam, _parentTransformHandle, Vector3.up, Green));
 
             if (_parentTransformHandle.Axes is HandleAxes.Z or HandleAxes.XZ or HandleAxes.YZ or HandleAxes.XYZ)
                 _axes.Add(CreatePositionAxis()
-                    .Initialize(_parentTransformHandle, Vector3.forward, Blue));
+                    .Construct(cam, _parentTransformHandle, Vector3.forward, Blue));
 
             _planes = new List<PositionPlane>();
 
             if (_parentTransformHandle.Axes is HandleAxes.XY or HandleAxes.XYZ)
                 _planes.Add(CreatePositionPlane()
-                    .Initialize(_parentTransformHandle, Vector3.right, Vector3.up, -Vector3.forward, DarkBlue));
+                    .Construct(cam, _parentTransformHandle, Vector3.right, Vector3.up, -Vector3.forward, DarkBlue));
 
             if (_parentTransformHandle.Axes is HandleAxes.YZ or HandleAxes.XYZ)
                 _planes.Add(CreatePositionPlane()
-                    .Initialize(_parentTransformHandle, Vector3.up, Vector3.forward, Vector3.right, DarkRed));
+                    .Construct(cam, _parentTransformHandle, Vector3.up, Vector3.forward, Vector3.right, DarkRed));
 
             if (_parentTransformHandle.Axes is HandleAxes.XZ or HandleAxes.XYZ)
                 _planes.Add(CreatePositionPlane()
-                    .Initialize(_parentTransformHandle, Vector3.right, Vector3.forward, Vector3.up, DarkGreen));
+                    .Construct(cam, _parentTransformHandle, Vector3.right, Vector3.forward, Vector3.up, DarkGreen));
+
+            return this;
         }
 
         private PositionAxis CreatePositionAxis() => CreateGameObject().AddComponent<PositionAxis>();

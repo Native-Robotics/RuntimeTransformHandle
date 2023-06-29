@@ -4,7 +4,7 @@ namespace Shtif.RuntimeTransformHandle
 {
 	public static class HandleMathUtils
 	{
-		public const float PRECISION_THRESHOLD = 0.001f;
+		public const float PrecisionThreshold = 0.001f;
 		
 		public static float ClosestPointOnRay(Ray ray, Ray other)
 		{
@@ -22,7 +22,7 @@ namespace Shtif.RuntimeTransformHandle
 			var ab = Vector3.Dot(ray.origin,    ray.direction);
 			
 			var bottom = bd * bd - 1f;
-			if (Mathf.Abs(bottom) < PRECISION_THRESHOLD)
+			if (Mathf.Abs(bottom) < PrecisionThreshold)
 			{
 				return 0;
 			}

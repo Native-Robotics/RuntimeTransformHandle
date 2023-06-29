@@ -5,7 +5,7 @@ namespace Shtif.RuntimeTransformHandle
      */
     public enum HandleSnappingType
     {
-        ABSOLUTE,
-        RELATIVE
+        Absolute,
+        Relative
     }
 }

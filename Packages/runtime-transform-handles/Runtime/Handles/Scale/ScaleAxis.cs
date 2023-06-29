@@ -1,76 +1,74 @@
-using System.IO;
-using System.Security.Permissions;
 using UnityEngine;
 
 namespace Shtif.RuntimeTransformHandle
 {
-    /**
-     * Created by Peter @sHTiF Stefcek 20.10.2020
-     */
     public class ScaleAxis : HandleBase
     {
-        private const float SIZE = 2;
-        
+        private const float Size = 2;
+
         private Vector3 _axis;
         private Vector3 _startScale;
 
         private float _interactionDistance;
-        private Ray     _raxisRay;
-        
-        public ScaleAxis Initialize(RuntimeTransformHandle p_parentTransformHandle, Vector3 p_axis, Color p_color)
+        private Ray _raxisRay;
+        private Camera _cam;
+
+        public ScaleAxis Construct(Camera cam, RuntimeTransformHandle parentTransformHandle, Vector3 axis,
+            Color pColor)
         {
-            _parentTransformHandle = p_parentTransformHandle;
-            _axis = p_axis;
-            _defaultColor = p_color;
+            _cam = cam;
+            ParentTransformHandle = parentTransformHandle;
+            _axis = axis;
+            DefaultColor = pColor;
 
             InitializeMaterial();
 
-            transform.SetParent(p_parentTransformHandle.transform, false);
+            transform.SetParent(parentTransformHandle.transform, false);
 
-            var o = _parentTransformHandle.CreateGameObject();
+            var o = ParentTransformHandle.CreateGameObject();
             o.transform.SetParent(transform, false);
             var mr = o.AddComponent<MeshRenderer>();
-            mr.material = _material;
+            mr.material = Material;
             var mf = o.AddComponent<MeshFilter>();
-            mf.mesh = MeshUtils.CreateCone(p_axis.magnitude * SIZE, .02f, .02f, 8, 1);
+            mf.mesh = MeshUtils.CreateCone(axis.magnitude * Size, .02f, .02f, 8, 1);
             var mc = o.AddComponent<MeshCollider>();
-            mc.sharedMesh = MeshUtils.CreateCone(p_axis.magnitude * SIZE, .1f, .02f, 8, 1);
-            o.transform.localRotation = Quaternion.FromToRotation(Vector3.up, p_axis);
+            mc.sharedMesh = MeshUtils.CreateCone(axis.magnitude * Size, .1f, .02f, 8, 1);
+            o.transform.localRotation = Quaternion.FromToRotation(Vector3.up, axis);
 
-            o = _parentTransformHandle.CreateGameObject();
+            o = ParentTransformHandle.CreateGameObject();
             o.transform.SetParent(transform, false);
             mr = o.AddComponent<MeshRenderer>();
-            mr.material = _material;
+            mr.material = Material;
             mf = o.AddComponent<MeshFilter>();
             mf.mesh = MeshUtils.CreateBox(.25f, .25f, .25f);
-            mc = o.AddComponent<MeshCollider>();
-            o.transform.localRotation = Quaternion.FromToRotation(Vector3.up, p_axis);
-            o.transform.localPosition = p_axis * SIZE;
+            o.AddComponent<MeshCollider>();
+            o.transform.localRotation = Quaternion.FromToRotation(Vector3.up, axis);
+            o.transform.localPosition = axis * Size;
 
             return this;
         }
 
         protected void Update()
         {
-            transform.GetChild(0).localScale = new Vector3(1, 1+delta, 1);
-            transform.GetChild(1).localPosition = _axis * (SIZE * (1 + delta));
+            transform.GetChild(0).localScale = new Vector3(1, 1 + delta, 1);
+            transform.GetChild(1).localPosition = _axis * (Size * (1 + delta));
         }
 
-        public override void Interact(Vector3 p_previousPosition)
+        public override void Interact(Vector3 previousPosition)
         {
-            var cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            var cameraRay = _cam.ScreenPointToRay(Input.mousePosition);
 
-            var   closestT = HandleMathUtils.ClosestPointOnRay(_raxisRay, cameraRay);
+            var closestT = HandleMathUtils.ClosestPointOnRay(_raxisRay, cameraRay);
             var hitPoint = _raxisRay.GetPoint(closestT);
-            
-            var distance = Vector3.Distance(_parentTransformHandle.TargetPosition.Position, hitPoint);
-            var axisScaleDelta    = distance / _interactionDistance - 1f;
 
-            var snapping = _parentTransformHandle.scaleSnap;
-            var   snap     = Mathf.Abs(Vector3.Dot(snapping, _axis));
+            var distance = Vector3.Distance(ParentTransformHandle.TargetPosition.Position, hitPoint);
+            var axisScaleDelta = distance / _interactionDistance - 1f;
+
+            var snapping = ParentTransformHandle.scaleSnap;
+            var snap = Mathf.Abs(Vector3.Dot(snapping, _axis));
             if (snap != 0)
             {
-                if (_parentTransformHandle.snappingType == HandleSnappingType.RELATIVE)
+                if (ParentTransformHandle.snappingType == HandleSnappingType.Relative)
                 {
                     axisScaleDelta = Mathf.Round(axisScaleDelta / snap) * snap;
                 }
@@ -84,28 +82,28 @@ namespace Shtif.RuntimeTransformHandle
             delta = axisScaleDelta;
             var scale = Vector3.Scale(_startScale, _axis * axisScaleDelta + Vector3.one);
 
-            _parentTransformHandle.TargetScaleTarget.LocalScale = scale;
+            ParentTransformHandle.TargetScaleTarget.LocalScale = scale;
 
-            base.Interact(p_previousPosition);
+            base.Interact(previousPosition);
         }
 
-        public override void StartInteraction(Vector3 p_hitPoint)
+        public override void StartInteraction(Vector3 hitPoint)
         {
-            base.StartInteraction(p_hitPoint);
-            _startScale = _parentTransformHandle.TargetScaleTarget.LocalScale;
+            base.StartInteraction(hitPoint);
+            _startScale = ParentTransformHandle.TargetScaleTarget.LocalScale;
 
-            var raxis = _parentTransformHandle.Space == HandleSpace.LOCAL
-                ? _parentTransformHandle.TargetRotation.Rotation * _axis
+            var raxis = ParentTransformHandle.Space == HandleSpace.Local
+                ? ParentTransformHandle.TargetRotation.Rotation * _axis
                 : _axis;
-            
-            _raxisRay = new Ray(_parentTransformHandle.TargetPosition.Position, raxis);
-            
-            var cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-            
-            var   closestT = HandleMathUtils.ClosestPointOnRay(_raxisRay, cameraRay);
-            var hitPoint = _raxisRay.GetPoint(closestT);
-            
-            _interactionDistance = Vector3.Distance(_parentTransformHandle.TargetPosition.Position, hitPoint);
+
+            _raxisRay = new Ray(ParentTransformHandle.TargetPosition.Position, raxis);
+
+            var cameraRay = _cam.ScreenPointToRay(Input.mousePosition);
+
+            var closestT = HandleMathUtils.ClosestPointOnRay(_raxisRay, cameraRay);
+            hitPoint = _raxisRay.GetPoint(closestT);
+
+            _interactionDistance = Vector3.Distance(ParentTransformHandle.TargetPosition.Position, hitPoint);
         }
     }
 }
