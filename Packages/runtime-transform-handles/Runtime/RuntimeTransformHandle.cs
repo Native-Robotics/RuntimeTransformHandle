@@ -85,7 +85,7 @@ namespace Shtif.RuntimeTransformHandle
             switch (Type)
             {
                 case HandleType.POSITION:
-                    _positionHandle = gameObject.AddComponent<PositionHandle>().Initialize(this);
+                    _positionHandle = gameObject.AddComponent<PositionHandle>().Construct(this);
                     break;
                 case HandleType.ROTATION:
                     _rotationHandle = gameObject.AddComponent<RotationHandle>().Initialize(this);
@@ -124,7 +124,7 @@ namespace Shtif.RuntimeTransformHandle
                                    autoScaleFactor) / 15;
 
             HandleBase handle = null;
-            Vector3 hitPoint = Vector3.zero;
+            var hitPoint = Vector3.zero;
             GetHandle(ref handle, ref hitPoint);
 
             HandleOverEffect(handle, hitPoint);

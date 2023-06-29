@@ -20,21 +20,21 @@ namespace Shtif.RuntimeTransformHandle
 
             transform.SetParent(p_parentTransformHandle.transform, false);
 
-            GameObject o = _parentTransformHandle.CreateGameObject();
+            var o = _parentTransformHandle.CreateGameObject();
             o.transform.SetParent(transform, false);
-            MeshRenderer mr = o.AddComponent<MeshRenderer>();
+            var mr = o.AddComponent<MeshRenderer>();
             mr.material = _material;
-            MeshFilter mf = o.AddComponent<MeshFilter>();
+            var mf = o.AddComponent<MeshFilter>();
             mf.mesh = MeshUtils.CreateBox(.35f, .35f, .35f);
-            MeshCollider mc = o.AddComponent<MeshCollider>();
+            var mc = o.AddComponent<MeshCollider>();
 
             return this;
         }
 
         public override void Interact(Vector3 p_previousPosition)
         {
-            Vector3 mouseVector = (Input.mousePosition - p_previousPosition);
-            float d = (mouseVector.x + mouseVector.y) * Time.deltaTime * 2;
+            var mouseVector = (Input.mousePosition - p_previousPosition);
+            var d = (mouseVector.x + mouseVector.y) * Time.deltaTime * 2;
             delta += d;
             _parentTransformHandle.TargetScaleTarget.LocalScale = _startScale + Vector3.Scale(_startScale,_axis) * delta;
             

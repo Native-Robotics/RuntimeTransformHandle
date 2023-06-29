@@ -3,61 +3,68 @@ using UnityEngine;
 
 namespace Shtif.RuntimeTransformHandle
 {
-    /**
-     * Created by Peter @sHTiF Stefcek 20.10.2020
-     */
     public class PositionHandle : MonoBehaviour
     {
-        protected RuntimeTransformHandle _parentTransformHandle;
-        protected List<PositionAxis> _axes;
-        protected List<PositionPlane> _planes;
+        private RuntimeTransformHandle _parentTransformHandle;
+        private List<PositionAxis> _axes;
+        private List<PositionPlane> _planes;
 
-        public PositionHandle Initialize(RuntimeTransformHandle p_runtimeHandle)
+        private static readonly Color DarkBlue = new(0, 0, 1, .2f);
+        private static readonly Color DarkRed = new(1, 0, 0, .2f);
+        private static readonly Color DarkGreen = new(0, 1, 0, .2f);
+
+        private static readonly Color Blue = Color.blue;
+        private static readonly Color Red = Color.red;
+        private static readonly Color Green = Color.green;
+
+        public void Construct(RuntimeTransformHandle parentTransformHandle)
         {
-            _parentTransformHandle = p_runtimeHandle;
+            _parentTransformHandle = parentTransformHandle;
             transform.SetParent(_parentTransformHandle.transform, false);
 
             _axes = new List<PositionAxis>();
 
-            if (_parentTransformHandle.Axes == HandleAxes.X || _parentTransformHandle.Axes == HandleAxes.XY || _parentTransformHandle.Axes == HandleAxes.XZ || _parentTransformHandle.Axes == HandleAxes.XYZ)
-                _axes.Add(CreateGameObject().AddComponent<PositionAxis>()
-                    .Initialize(_parentTransformHandle, Vector3.right, Color.red));
-            
-            if (_parentTransformHandle.Axes == HandleAxes.Y || _parentTransformHandle.Axes == HandleAxes.XY || _parentTransformHandle.Axes == HandleAxes.YZ || _parentTransformHandle.Axes == HandleAxes.XYZ)
-                _axes.Add(CreateGameObject().AddComponent<PositionAxis>()
-                    .Initialize(_parentTransformHandle, Vector3.up, Color.green));
+            if (_parentTransformHandle.Axes is HandleAxes.X or HandleAxes.XY or HandleAxes.XZ or HandleAxes.XYZ)
+                _axes.Add(CreatePositionAxis()
+                    .Initialize(_parentTransformHandle, Vector3.right, Red));
 
-            if (_parentTransformHandle.Axes == HandleAxes.Z || _parentTransformHandle.Axes == HandleAxes.XZ || _parentTransformHandle.Axes == HandleAxes.YZ || _parentTransformHandle.Axes == HandleAxes.XYZ)
-                _axes.Add(CreateGameObject().AddComponent<PositionAxis>()
-                    .Initialize(_parentTransformHandle, Vector3.forward, Color.blue));
+            if (_parentTransformHandle.Axes is HandleAxes.Y or HandleAxes.XY or HandleAxes.YZ or HandleAxes.XYZ)
+                _axes.Add(CreatePositionAxis()
+                    .Initialize(_parentTransformHandle, Vector3.up, Green));
+
+            if (_parentTransformHandle.Axes is HandleAxes.Z or HandleAxes.XZ or HandleAxes.YZ or HandleAxes.XYZ)
+                _axes.Add(CreatePositionAxis()
+                    .Initialize(_parentTransformHandle, Vector3.forward, Blue));
 
             _planes = new List<PositionPlane>();
-            
-            if (_parentTransformHandle.Axes == HandleAxes.XY || _parentTransformHandle.Axes == HandleAxes.XYZ)
-                _planes.Add(CreateGameObject().AddComponent<PositionPlane>()
-                    .Initialize(_parentTransformHandle, Vector3.right, Vector3.up, -Vector3.forward, new Color(0,0,1,.2f)));
 
-            if (_parentTransformHandle.Axes == HandleAxes.YZ || _parentTransformHandle.Axes == HandleAxes.XYZ)
-                _planes.Add(CreateGameObject().AddComponent<PositionPlane>()
-                    .Initialize(_parentTransformHandle, Vector3.up, Vector3.forward, Vector3.right, new Color(1, 0, 0, .2f)));
+            if (_parentTransformHandle.Axes is HandleAxes.XY or HandleAxes.XYZ)
+                _planes.Add(CreatePositionPlane()
+                    .Initialize(_parentTransformHandle, Vector3.right, Vector3.up, -Vector3.forward, DarkBlue));
 
-            if (_parentTransformHandle.Axes == HandleAxes.XZ || _parentTransformHandle.Axes == HandleAxes.XYZ)
-                _planes.Add(CreateGameObject().AddComponent<PositionPlane>()
-                    .Initialize(_parentTransformHandle, Vector3.right, Vector3.forward, Vector3.up, new Color(0, 1, 0, .2f)));
+            if (_parentTransformHandle.Axes is HandleAxes.YZ or HandleAxes.XYZ)
+                _planes.Add(CreatePositionPlane()
+                    .Initialize(_parentTransformHandle, Vector3.up, Vector3.forward, Vector3.right, DarkRed));
 
-            return this;
+            if (_parentTransformHandle.Axes is HandleAxes.XZ or HandleAxes.XYZ)
+                _planes.Add(CreatePositionPlane()
+                    .Initialize(_parentTransformHandle, Vector3.right, Vector3.forward, Vector3.up, DarkGreen));
         }
+
+        private PositionAxis CreatePositionAxis() => CreateGameObject().AddComponent<PositionAxis>();
+
+        private PositionPlane CreatePositionPlane() => CreateGameObject().AddComponent<PositionPlane>();
 
         private GameObject CreateGameObject() => _parentTransformHandle.CreateGameObject();
 
         public void Destroy()
         {
-            foreach (PositionAxis axis in _axes)
+            foreach (var axis in _axes)
                 Destroy(axis.gameObject);
-            
-            foreach (PositionPlane plane in _planes)
+
+            foreach (var plane in _planes)
                 Destroy(plane.gameObject);
-            
+
             Destroy(this);
         }
     }

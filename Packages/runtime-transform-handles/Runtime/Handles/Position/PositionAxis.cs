@@ -24,13 +24,13 @@ namespace Shtif.RuntimeTransformHandle
 
             transform.SetParent(p_runtimeHandle.transform, false);
 
-            GameObject o = _parentTransformHandle.CreateGameObject();
+            var o = _parentTransformHandle.CreateGameObject();
             o.transform.SetParent(transform, false);
-            MeshRenderer mr = o.AddComponent<MeshRenderer>();
+            var mr = o.AddComponent<MeshRenderer>();
             mr.material = _material;
-            MeshFilter mf = o.AddComponent<MeshFilter>();
+            var mf = o.AddComponent<MeshFilter>();
             mf.mesh = MeshUtils.CreateCone(2f, .02f, .02f, 8, 1);
-            MeshCollider mc = o.AddComponent<MeshCollider>();
+            var mc = o.AddComponent<MeshCollider>();
             mc.sharedMesh = MeshUtils.CreateCone(2f, .1f, .02f, 8, 1);
             o.transform.localRotation = Quaternion.FromToRotation(Vector3.up, p_axis);
 
@@ -49,21 +49,21 @@ namespace Shtif.RuntimeTransformHandle
 
         public override void Interact(Vector3 p_previousPosition)
         {
-            Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            var cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            float   closestT = HandleMathUtils.ClosestPointOnRay(_raxisRay, cameraRay);
-            Vector3 hitPoint = _raxisRay.GetPoint(closestT);
+            var   closestT = HandleMathUtils.ClosestPointOnRay(_raxisRay, cameraRay);
+            var hitPoint = _raxisRay.GetPoint(closestT);
             
-            Vector3 offset = hitPoint + _interactionOffset - _startPosition;
+            var offset = hitPoint + _interactionOffset - _startPosition;
             
-            Vector3 snapping = _parentTransformHandle.positionSnap;
-            float   snap     = Vector3.Scale(snapping, _axis).magnitude;
+            var snapping = _parentTransformHandle.positionSnap;
+            var   snap     = Vector3.Scale(snapping, _axis).magnitude;
             if (snap != 0 && _parentTransformHandle.snappingType == HandleSnappingType.RELATIVE)
             {
                 offset = (Mathf.Round(offset.magnitude / snap) * snap) * offset.normalized; 
             }
 
-            Vector3 position = _startPosition + offset;
+            var position = _startPosition + offset;
             
             if (snap != 0 && _parentTransformHandle.snappingType == HandleSnappingType.ABSOLUTE)
             {
@@ -83,16 +83,16 @@ namespace Shtif.RuntimeTransformHandle
             
             _startPosition = _parentTransformHandle.TargetPosition.Position;
 
-            Vector3 raxis = _parentTransformHandle.Space == HandleSpace.LOCAL
+            var raxis = _parentTransformHandle.Space == HandleSpace.LOCAL
                 ? _parentTransformHandle.TargetRotation.Rotation * _axis
                 : _axis;
             
             _raxisRay = new Ray(_startPosition, raxis);
 
-            Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            var cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            float closestT = HandleMathUtils.ClosestPointOnRay(_raxisRay, cameraRay);
-            Vector3 hitPoint = _raxisRay.GetPoint(closestT);
+            var closestT = HandleMathUtils.ClosestPointOnRay(_raxisRay, cameraRay);
+            var hitPoint = _raxisRay.GetPoint(closestT);
             
             _interactionOffset = _startPosition - hitPoint;
         }

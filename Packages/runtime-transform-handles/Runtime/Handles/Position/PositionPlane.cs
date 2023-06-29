@@ -29,11 +29,11 @@ namespace Shtif.RuntimeTransformHandle
 
             _handle = _parentTransformHandle.CreateGameObject();
             _handle.transform.SetParent(transform, false);
-            MeshRenderer mr = _handle.AddComponent<MeshRenderer>();
+            var mr = _handle.AddComponent<MeshRenderer>();
             mr.material = _material;
-            MeshFilter mf = _handle.AddComponent<MeshFilter>();
+            var mf = _handle.AddComponent<MeshFilter>();
             mf.mesh = MeshUtils.CreateBox(.02f, .5f, 0.5f);
-            MeshCollider mc = _handle.AddComponent<MeshCollider>();
+            var mc = _handle.AddComponent<MeshCollider>();
             _handle.transform.localRotation = Quaternion.FromToRotation(Vector3.up, _perp);
             _handle.transform.localPosition = (_axis1 + _axis2) * .25f;
 
@@ -42,18 +42,18 @@ namespace Shtif.RuntimeTransformHandle
 
         public override void Interact(Vector3 p_previousPosition)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            float d = 0.0f;
+            var d = 0.0f;
             _plane.Raycast(ray, out d);
             
-            Vector3 hitPoint = ray.GetPoint(d);
+            var hitPoint = ray.GetPoint(d);
 
-            Vector3 offset = hitPoint + _interactionOffset - _startPosition;
+            var offset = hitPoint + _interactionOffset - _startPosition;
 
-            Vector3 axis = _axis1 + _axis2;
-            Vector3 snapping = _parentTransformHandle.positionSnap;
-            float snap = Vector3.Scale(snapping, axis).magnitude;
+            var axis = _axis1 + _axis2;
+            var snapping = _parentTransformHandle.positionSnap;
+            var snap = Vector3.Scale(snapping, axis).magnitude;
             if (snap != 0 && _parentTransformHandle.snappingType == HandleSnappingType.RELATIVE)
             {
                 if (snapping.x != 0) offset.x = Mathf.Round(offset.x / snapping.x) * snapping.x;
@@ -61,7 +61,7 @@ namespace Shtif.RuntimeTransformHandle
                 if (snapping.z != 0) offset.z = Mathf.Round(offset.z / snapping.z) * snapping.z;
             }
 
-            Vector3 position = _startPosition + offset;
+            var position = _startPosition + offset;
             
             if (snap != 0 && _parentTransformHandle.snappingType == HandleSnappingType.ABSOLUTE)
             {
@@ -77,29 +77,29 @@ namespace Shtif.RuntimeTransformHandle
 
         public override void StartInteraction(Vector3 p_hitPoint)
         {
-            Vector3 rperp = _parentTransformHandle.Space == HandleSpace.LOCAL
+            var rperp = _parentTransformHandle.Space == HandleSpace.LOCAL
                 ? _parentTransformHandle.TargetRotation.Rotation * _perp
                 : _perp;
             
             _plane = new Plane(rperp, _parentTransformHandle.TargetPosition.Position);
             
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            float d = 0.0f;
+            var d = 0.0f;
             _plane.Raycast(ray, out d);
             
-            Vector3 hitPoint = ray.GetPoint(d);
+            var hitPoint = ray.GetPoint(d);
             _startPosition = _parentTransformHandle.TargetPosition.Position;
             _interactionOffset = _startPosition - hitPoint;
         }
 
         private void Update()
         {
-            Vector3 axis1 = _axis1;
-            Vector3 raxis1 = _parentTransformHandle.Space == HandleSpace.LOCAL
+            var axis1 = _axis1;
+            var raxis1 = _parentTransformHandle.Space == HandleSpace.LOCAL
                 ? _parentTransformHandle.TargetRotation.Rotation * axis1
                 : axis1;
-            float angle1 = Vector3.Angle(_parentTransformHandle.handleCamera.transform.forward, raxis1);
+            var angle1 = Vector3.Angle(_parentTransformHandle.handleCamera.transform.forward, raxis1);
             if (angle1 < 90)
                 axis1 = -axis1;
             
@@ -107,11 +107,11 @@ namespace Shtif.RuntimeTransformHandle
             // if (Vector3.Angle(_parentTransformHandle.handleCamera.transform.forward, axis1) > 90)
             //     axis1 = -axis1;
             
-            Vector3 axis2 = _axis2;
-            Vector3 raxis2 = _parentTransformHandle.Space == HandleSpace.LOCAL
+            var axis2 = _axis2;
+            var raxis2 = _parentTransformHandle.Space == HandleSpace.LOCAL
                 ? _parentTransformHandle.TargetRotation.Rotation * axis2
                 : axis2;
-            float angle2 = Vector3.Angle(_parentTransformHandle.handleCamera.transform.forward, raxis2);
+            var angle2 = Vector3.Angle(_parentTransformHandle.handleCamera.transform.forward, raxis2);
             if (angle2 < 90)
                 axis2 = -axis2;
 

@@ -28,13 +28,13 @@ namespace Shtif.RuntimeTransformHandle
 
             transform.SetParent(p_runtimeHandle.transform, false);
 
-            GameObject o = _parentTransformHandle.CreateGameObject();
+            var o = _parentTransformHandle.CreateGameObject();
             o.transform.SetParent(transform, false);
-            MeshRenderer mr = o.AddComponent<MeshRenderer>();
+            var mr = o.AddComponent<MeshRenderer>();
             mr.material = _material;
-            MeshFilter mf = o.AddComponent<MeshFilter>();
+            var mf = o.AddComponent<MeshFilter>();
             mf.mesh = MeshUtils.CreateTorus(2f, .02f, 32, 6);
-            MeshCollider mc = o.AddComponent<MeshCollider>();
+            var mc = o.AddComponent<MeshCollider>();
             mc.sharedMesh = MeshUtils.CreateTorus(2f, .1f, 32, 6);
             o.transform.localRotation = Quaternion.FromToRotation(Vector3.up, _axis);
             return this;
@@ -56,20 +56,20 @@ namespace Shtif.RuntimeTransformHandle
 
         public override void Interact(Vector3 p_previousPosition)
         {
-            Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            var cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
 
-            if (!_axisPlane.Raycast(cameraRay, out float hitT))
+            if (!_axisPlane.Raycast(cameraRay, out var hitT))
             {
                 base.Interact(p_previousPosition);
                 return;
             }
 
-            Vector3 hitPoint = cameraRay.GetPoint(hitT);
-            Vector3 hitDirection = (hitPoint - _parentTransformHandle.TargetPosition.Position).normalized;
-            float x = Vector3.Dot(hitDirection, _tangent);
-            float y = Vector3.Dot(hitDirection, _biTangent);
-            float angleRadians = Mathf.Atan2(y, x);
-            float angleDegrees = angleRadians * Mathf.Rad2Deg;
+            var hitPoint = cameraRay.GetPoint(hitT);
+            var hitDirection = (hitPoint - _parentTransformHandle.TargetPosition.Position).normalized;
+            var x = Vector3.Dot(hitDirection, _tangent);
+            var y = Vector3.Dot(hitDirection, _biTangent);
+            var angleRadians = Mathf.Atan2(y, x);
+            var angleDegrees = angleRadians * Mathf.Rad2Deg;
 
             if (_parentTransformHandle.rotationSnap != 0)
             {
@@ -85,7 +85,7 @@ namespace Shtif.RuntimeTransformHandle
             }
             else
             {
-                Vector3 invertedRotatedAxis = Quaternion.Inverse(_startRotation) * _axis;
+                var invertedRotatedAxis = Quaternion.Inverse(_startRotation) * _axis;
                 _parentTransformHandle.TargetRotation.Rotation =
                     _startRotation * Quaternion.AngleAxis(angleDegrees, invertedRotatedAxis);
             }
@@ -134,8 +134,8 @@ namespace Shtif.RuntimeTransformHandle
             _axisPlane = new Plane(_rotatedAxis, _parentTransformHandle.TargetPosition.Position);
 
             Vector3 startHitPoint;
-            Ray cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (_axisPlane.Raycast(cameraRay, out float hitT))
+            var cameraRay = Camera.main.ScreenPointToRay(Input.mousePosition);
+            if (_axisPlane.Raycast(cameraRay, out var hitT))
             {
                 startHitPoint = cameraRay.GetPoint(hitT);
             }

@@ -20,15 +20,15 @@ namespace Shtif.RuntimeTransformHandle
 
             _axes = new List<ScaleAxis>();
             
-            if (_parentTransformHandle.Axes == HandleAxes.X || _parentTransformHandle.Axes == HandleAxes.XY || _parentTransformHandle.Axes == HandleAxes.XZ || _parentTransformHandle.Axes == HandleAxes.XYZ)
+            if (_parentTransformHandle.Axes is HandleAxes.X or HandleAxes.XY or HandleAxes.XZ or HandleAxes.XYZ)
                 _axes.Add(CreateGameObject().AddComponent<ScaleAxis>()
                     .Initialize(_parentTransformHandle, Vector3.right, Color.red));
             
-            if (_parentTransformHandle.Axes == HandleAxes.Y || _parentTransformHandle.Axes == HandleAxes.XY || _parentTransformHandle.Axes == HandleAxes.YZ || _parentTransformHandle.Axes == HandleAxes.XYZ)
+            if (_parentTransformHandle.Axes is HandleAxes.Y or HandleAxes.XY or HandleAxes.YZ or HandleAxes.XYZ)
                 _axes.Add(CreateGameObject().AddComponent<ScaleAxis>()
                     .Initialize(_parentTransformHandle, Vector3.up, Color.green));
 
-            if (_parentTransformHandle.Axes == HandleAxes.Z || _parentTransformHandle.Axes == HandleAxes.XZ || _parentTransformHandle.Axes == HandleAxes.YZ || _parentTransformHandle.Axes == HandleAxes.XYZ)
+            if (_parentTransformHandle.Axes is HandleAxes.Z or HandleAxes.XZ or HandleAxes.YZ or HandleAxes.XYZ)
                 _axes.Add(CreateGameObject().AddComponent<ScaleAxis>()
                     .Initialize(_parentTransformHandle, Vector3.forward, Color.blue));
 
@@ -49,7 +49,7 @@ namespace Shtif.RuntimeTransformHandle
         
         private void OnGlobalInteractionStart()
         {
-            foreach (ScaleAxis axis in _axes)
+            foreach (var axis in _axes)
             {
                 axis.SetColor(Color.yellow);
             }
@@ -57,7 +57,7 @@ namespace Shtif.RuntimeTransformHandle
 
         private void OnGlobalInteractionUpdate(float p_delta)
         {
-            foreach (ScaleAxis axis in _axes)
+            foreach (var axis in _axes)
             {
                 axis.delta = p_delta;
             }
@@ -65,7 +65,7 @@ namespace Shtif.RuntimeTransformHandle
 
         private void OnGlobalInteractionEnd()
         {
-            foreach (ScaleAxis axis in _axes)
+            foreach (var axis in _axes)
             {
                 axis.SetDefaultColor();
                 axis.delta = 0;
@@ -74,7 +74,7 @@ namespace Shtif.RuntimeTransformHandle
 
         public void Destroy()
         {
-            foreach (ScaleAxis axis in _axes)
+            foreach (var axis in _axes)
                 Destroy(axis.gameObject);
 
             if (_globalAxis) Destroy(_globalAxis.gameObject);

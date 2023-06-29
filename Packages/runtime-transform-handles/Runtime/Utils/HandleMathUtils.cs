@@ -15,19 +15,19 @@ namespace Shtif.RuntimeTransformHandle
 			// other.origin -> c
 			// other.direction -> d
 
-			float bd = Vector3.Dot(ray.direction, other.direction);
-			float cd = Vector3.Dot(other.origin,  other.direction);
-			float ad = Vector3.Dot(ray.origin,    other.direction);
-			float bc = Vector3.Dot(ray.direction, other.origin);
-			float ab = Vector3.Dot(ray.origin,    ray.direction);
+			var bd = Vector3.Dot(ray.direction, other.direction);
+			var cd = Vector3.Dot(other.origin,  other.direction);
+			var ad = Vector3.Dot(ray.origin,    other.direction);
+			var bc = Vector3.Dot(ray.direction, other.origin);
+			var ab = Vector3.Dot(ray.origin,    ray.direction);
 			
-			float bottom = bd * bd - 1f;
+			var bottom = bd * bd - 1f;
 			if (Mathf.Abs(bottom) < PRECISION_THRESHOLD)
 			{
 				return 0;
 			}
 
-			float top = ab - bc + bd * (cd - ad);
+			var top = ab - bc + bd * (cd - ad);
 			return top / bottom;
 		}
 	}

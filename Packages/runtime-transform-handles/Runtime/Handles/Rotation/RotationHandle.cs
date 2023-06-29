@@ -18,15 +18,15 @@ namespace Shtif.RuntimeTransformHandle
 
             _axes = new List<RotationAxis>();
             
-            if (_parentTransformHandle.Axes == HandleAxes.X || _parentTransformHandle.Axes == HandleAxes.XY || _parentTransformHandle.Axes == HandleAxes.XZ || _parentTransformHandle.Axes == HandleAxes.XYZ)
+            if (_parentTransformHandle.Axes is HandleAxes.X or HandleAxes.XY or HandleAxes.XZ or HandleAxes.XYZ)
                 _axes.Add(CreateGameObject().AddComponent<RotationAxis>()
                     .Initialize(_parentTransformHandle, Vector3.right, Color.red));
             
-            if (_parentTransformHandle.Axes == HandleAxes.Y || _parentTransformHandle.Axes == HandleAxes.XY || _parentTransformHandle.Axes == HandleAxes.YZ || _parentTransformHandle.Axes == HandleAxes.XYZ)
+            if (_parentTransformHandle.Axes is HandleAxes.Y or HandleAxes.XY or HandleAxes.YZ or HandleAxes.XYZ)
                 _axes.Add(CreateGameObject().AddComponent<RotationAxis>()
                     .Initialize(_parentTransformHandle, Vector3.up, Color.green));
 
-            if (_parentTransformHandle.Axes == HandleAxes.Z || _parentTransformHandle.Axes == HandleAxes.YZ || _parentTransformHandle.Axes == HandleAxes.XZ || _parentTransformHandle.Axes == HandleAxes.XYZ)
+            if (_parentTransformHandle.Axes is HandleAxes.Z or HandleAxes.YZ or HandleAxes.XZ or HandleAxes.XYZ)
                 _axes.Add(CreateGameObject().AddComponent<RotationAxis>()
                     .Initialize(_parentTransformHandle, Vector3.forward, Color.blue));
 
@@ -37,7 +37,7 @@ namespace Shtif.RuntimeTransformHandle
 
         public void Destroy()
         {
-            foreach (RotationAxis axis in _axes)
+            foreach (var axis in _axes)
                 Destroy(axis.gameObject);
             
             Destroy(this);
