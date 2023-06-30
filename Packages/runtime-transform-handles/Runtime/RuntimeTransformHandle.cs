@@ -214,6 +214,7 @@ namespace Shtif.RuntimeTransformHandle
             {
                 layer = gameObject.layer
             };
+            go.AddComponent<TransformHandleClickReceiver>();
             return go;
         }
     }
