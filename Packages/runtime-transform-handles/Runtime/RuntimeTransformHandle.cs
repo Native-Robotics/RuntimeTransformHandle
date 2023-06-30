@@ -88,7 +88,7 @@ namespace Shtif.RuntimeTransformHandle
             if (handleCamera == null)
                 handleCamera = Camera.main;
 
-            gameObject.AddComponent<TransformHandleClickReceiver>();
+            gameObject.AddComponent<TransformHandleClickReceiver>().Parent = this;
             CreateHandles();
         }
 
@@ -214,7 +214,7 @@ namespace Shtif.RuntimeTransformHandle
             {
                 layer = gameObject.layer
             };
-            go.AddComponent<TransformHandleClickReceiver>();
+            go.AddComponent<TransformHandleClickReceiver>().Parent = this;
             return go;
         }
     }
