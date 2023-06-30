@@ -14,4 +14,4 @@ other objects that will spawn will have the same layer.
 3. Enter the following
    * https://github.com/Native-Robotics/RuntimeTransformHandle.git?path=/Packages/runtime-transform-handles#tag
 
-Now: https://github.com/Native-Robotics/RuntimeTransformHandle.git?path=/Packages/runtime-transform-handles#1.0.1
+Now: https://github.com/Native-Robotics/RuntimeTransformHandle.git?path=/Packages/runtime-transform-handles#1.2.0
