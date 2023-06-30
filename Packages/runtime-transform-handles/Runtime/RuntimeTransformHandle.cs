@@ -27,8 +27,18 @@ namespace Shtif.RuntimeTransformHandle
         private RotationHandle _rotationHandle;
         private ScaleHandle _scaleHandle;
         private readonly RaycastHit[] _results = new RaycastHit[2];
-        private readonly Camera _camera = Camera.main;
-        
+        private Camera _camera;
+
+        private Camera Camera
+        {
+            get
+            {
+                if (_camera == null) 
+                    _camera = Camera.main;
+                return _camera;
+            }
+        }
+
         public HandleAxes Axes
         {
             get => axes;
@@ -87,13 +97,13 @@ namespace Shtif.RuntimeTransformHandle
             switch (Type)
             {
                 case HandleType.Position:
-                    _positionHandle = gameObject.AddComponent<PositionHandle>().Construct(_camera, this);
+                    _positionHandle = gameObject.AddComponent<PositionHandle>().Construct(Camera, this);
                     break;
                 case HandleType.Rotation:
-                    _rotationHandle = gameObject.AddComponent<RotationHandle>().Construct(_camera, this);
+                    _rotationHandle = gameObject.AddComponent<RotationHandle>().Construct(Camera, this);
                     break;
                 case HandleType.Scale:
-                    _scaleHandle = gameObject.AddComponent<ScaleHandle>().Construct(_camera, this);
+                    _scaleHandle = gameObject.AddComponent<ScaleHandle>().Construct(Camera, this);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -182,7 +192,7 @@ namespace Shtif.RuntimeTransformHandle
 
         private void GetHandle(ref HandleBase pHandle, ref Vector3 pHitPoint)
         {
-            var ray = _camera.ScreenPointToRay(Input.mousePosition);
+            var ray = Camera.ScreenPointToRay(Input.mousePosition);
             var hits = Physics.RaycastNonAlloc(ray, _results);
             if (hits == 0)
                 return;
