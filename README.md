@@ -13,3 +13,5 @@ other objects that will spawn will have the same layer.
 2. `"+" button > Add package from git URL`
 3. Enter the following
    * https://github.com/Native-Robotics/RuntimeTransformHandle.git?path=/Packages/runtime-transform-handles#tag
+
+Now: https://github.com/Native-Robotics/RuntimeTransformHandle.git?path=/Packages/runtime-transform-handles#1.0.1
