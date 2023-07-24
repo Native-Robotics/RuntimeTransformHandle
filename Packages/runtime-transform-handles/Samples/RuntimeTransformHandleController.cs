@@ -50,8 +50,14 @@ namespace Shtif.RuntimeTransformHandle.Samples
                 Select();
         }
 
-        private void Select() => handle.SetEnabled(true);
+        private void Select() => SetActiveHandle(true);
 
-        private void Deselect() => handle.SetEnabled(false);
+        private void Deselect() => SetActiveHandle(false);
+
+        private void SetActiveHandle(bool pIsEnable)
+        {
+            handle.gameObject.SetActive(pIsEnable);
+            handle.SetEnabled(pIsEnable);
+        }
     }
 }
