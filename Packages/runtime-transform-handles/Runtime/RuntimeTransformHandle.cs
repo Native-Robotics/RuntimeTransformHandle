@@ -102,7 +102,7 @@ namespace Shtif.RuntimeTransformHandle
                     _positionHandle = gameObject.AddComponent<PositionHandle>().Construct(Camera, this, shader);
                     break;
                 case HandleType.Rotation:
-                    _rotationHandle = gameObject.AddComponent<RotationHandle>().Construct(Camera, this, rotationShader);
+                    _rotationHandle = gameObject.AddComponent<RotationHandle>().Construct(Camera, this, rotationShader, shader);
                     break;
                 case HandleType.Scale:
                     _scaleHandle = gameObject.AddComponent<ScaleHandle>().Construct(Camera, this, shader);

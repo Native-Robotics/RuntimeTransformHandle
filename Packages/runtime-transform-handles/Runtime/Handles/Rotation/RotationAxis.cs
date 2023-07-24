@@ -6,7 +6,7 @@ namespace Shtif.RuntimeTransformHandle
     {
         private static readonly int CameraPositionPropertyID = Shader.PropertyToID("_CameraPosition");
         private static readonly int CameraDistancePropertyID = Shader.PropertyToID("_CameraDistance");
-        
+
         private Mesh _arcMesh;
         private Material _arcMaterial;
         private Vector3 _axis;
@@ -17,15 +17,18 @@ namespace Shtif.RuntimeTransformHandle
 
         private Quaternion _startRotation;
         private Camera _cam;
+        private Shader _pHandleShader;
 
-        public RotationAxis Construct(Camera cam, RuntimeTransformHandle pRuntimeHandle, Vector3 pAxis, Color pColor, Shader pShader)
+        public RotationAxis Construct(Camera cam, RuntimeTransformHandle pRuntimeHandle, Vector3 pAxis, Color pColor,
+            Shader pRotationHandleShader, Shader pHandleShader)
         {
+            _pHandleShader = pHandleShader;
             _cam = cam;
             ParentTransformHandle = pRuntimeHandle;
             _axis = pAxis;
             DefaultColor = pColor;
 
-            InitializeMaterial(pShader);
+            InitializeMaterial(pRotationHandleShader);
 
             transform.SetParent(pRuntimeHandle.transform, false);
 
@@ -120,7 +123,7 @@ namespace Shtif.RuntimeTransformHandle
                 ? ParentTransformHandle.TargetLocalRotation.LocalRotation
                 : ParentTransformHandle.TargetRotation.Rotation;
 
-            _arcMaterial = new Material(Shader.Find("sHTiF/HandleShader"));
+            _arcMaterial = new Material(_pHandleShader);
             _arcMaterial.color = new Color(1, 1, 0, .4f);
             _arcMaterial.renderQueue = 5000;
 
