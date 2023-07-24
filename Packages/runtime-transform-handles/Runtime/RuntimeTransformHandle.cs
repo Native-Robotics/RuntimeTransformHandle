@@ -5,19 +5,22 @@ namespace Shtif.RuntimeTransformHandle
 {
     public class RuntimeTransformHandle : MonoBehaviour
     {
+        [Header("Snapping")]
         public HandleSnappingType snappingType = HandleSnappingType.Relative;
-
         public Vector3 positionSnap = Vector3.zero;
         public float rotationSnap = 0;
         public Vector3 scaleSnap = Vector3.zero;
+        [Header("Shaders")]
+        [SerializeField] private Shader rotationShader;
+        [SerializeField] private Shader shader;
+        [Header("Changes in runtime will not affect, use properties instead")]
         [SerializeField] private HandleAxes axes = HandleAxes.XYZ;
         [SerializeField] private HandleSpace space = HandleSpace.Local;
         [SerializeField] private HandleType type = HandleType.Position;
-        [SerializeField] private Shader rotationShader;
-        [SerializeField] private Shader shader;
-
+        [Header("Auto scale")]
         public bool autoScale = false;
         public float autoScaleFactor = 1;
+        [Header("Camera")]
         public Camera handleCamera;
 
         private Vector3 _previousMousePosition;
@@ -60,7 +63,7 @@ namespace Shtif.RuntimeTransformHandle
                 Recreate();
             }
         }
-
+        
         public HandleType Type
         {
             get => type;
