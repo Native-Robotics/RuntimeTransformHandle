@@ -14,14 +14,14 @@ namespace Shtif.RuntimeTransformHandle
         private Camera _cam;
 
         public ScaleAxis Construct(Camera cam, RuntimeTransformHandle parentTransformHandle, Vector3 axis,
-            Color pColor)
+            Color pColor, Shader shader)
         {
             _cam = cam;
             ParentTransformHandle = parentTransformHandle;
             _axis = axis;
             DefaultColor = pColor;
 
-            InitializeMaterial();
+            InitializeMaterial(shader);
 
             transform.SetParent(parentTransformHandle.transform, false);
 

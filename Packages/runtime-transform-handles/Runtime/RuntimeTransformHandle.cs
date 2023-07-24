@@ -13,6 +13,8 @@ namespace Shtif.RuntimeTransformHandle
         [SerializeField] private HandleAxes axes = HandleAxes.XYZ;
         [SerializeField] private HandleSpace space = HandleSpace.Local;
         [SerializeField] private HandleType type = HandleType.Position;
+        [SerializeField] private Shader rotationShader;
+        [SerializeField] private Shader shader;
 
         public bool autoScale = false;
         public float autoScaleFactor = 1;
@@ -97,13 +99,13 @@ namespace Shtif.RuntimeTransformHandle
             switch (Type)
             {
                 case HandleType.Position:
-                    _positionHandle = gameObject.AddComponent<PositionHandle>().Construct(Camera, this);
+                    _positionHandle = gameObject.AddComponent<PositionHandle>().Construct(Camera, this, shader);
                     break;
                 case HandleType.Rotation:
-                    _rotationHandle = gameObject.AddComponent<RotationHandle>().Construct(Camera, this);
+                    _rotationHandle = gameObject.AddComponent<RotationHandle>().Construct(Camera, this, rotationShader);
                     break;
                 case HandleType.Scale:
-                    _scaleHandle = gameObject.AddComponent<ScaleHandle>().Construct(Camera, this);
+                    _scaleHandle = gameObject.AddComponent<ScaleHandle>().Construct(Camera, this, shader);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

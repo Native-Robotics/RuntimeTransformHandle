@@ -16,7 +16,8 @@ namespace Shtif.RuntimeTransformHandle
         private GameObject _handle;
         private Camera _cam;
 
-        public PositionPlane Construct(Camera cam, RuntimeTransformHandle runtimeHandle, Vector3 axis1, Vector3 axis2, Vector3 perp, Color color)
+        public PositionPlane Construct(Camera cam, RuntimeTransformHandle runtimeHandle, Vector3 axis1, Vector3 axis2,
+            Vector3 perp, Color color, Shader shader)
         {
             _cam = cam;
             ParentTransformHandle = runtimeHandle;
@@ -25,7 +26,7 @@ namespace Shtif.RuntimeTransformHandle
             _axis2 = axis2;
             _perp = perp;
 
-            InitializeMaterial();
+            InitializeMaterial(shader);
 
             transform.SetParent(runtimeHandle.transform, false);
 
@@ -47,7 +48,7 @@ namespace Shtif.RuntimeTransformHandle
             var ray = _cam.ScreenPointToRay(Input.mousePosition);
 
             _plane.Raycast(ray, out var d);
-            
+
             var hitPoint = ray.GetPoint(d);
 
             var offset = hitPoint + _interactionOffset - _startPosition;
@@ -63,7 +64,7 @@ namespace Shtif.RuntimeTransformHandle
             }
 
             var position = _startPosition + offset;
-            
+
             if (snap != 0 && ParentTransformHandle.snappingType == HandleSnappingType.Absolute)
             {
                 if (snapping.x != 0) position.x = Mathf.Round(position.x / snapping.x) * snapping.x;
@@ -81,13 +82,13 @@ namespace Shtif.RuntimeTransformHandle
             var rperp = ParentTransformHandle.Space == HandleSpace.Local
                 ? ParentTransformHandle.TargetRotation.Rotation * _perp
                 : _perp;
-            
+
             _plane = new Plane(rperp, ParentTransformHandle.TargetPosition.Position);
-            
+
             var ray = _cam.ScreenPointToRay(Input.mousePosition);
 
             _plane.Raycast(ray, out var d);
-            
+
             var hitPoint = ray.GetPoint(d);
             _startPosition = ParentTransformHandle.TargetPosition.Position;
             _interactionOffset = _startPosition - hitPoint;

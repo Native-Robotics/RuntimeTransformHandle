@@ -13,7 +13,7 @@ namespace Shtif.RuntimeTransformHandle
         private List<ScaleAxis> _axes;
         private ScaleGlobal _globalAxis;
         
-        public ScaleHandle Construct(Camera cam, RuntimeTransformHandle parentTransformHandle)
+        public ScaleHandle Construct(Camera cam, RuntimeTransformHandle parentTransformHandle, Shader shader)
         {
             _parentTransformHandle = parentTransformHandle;
             transform.SetParent(_parentTransformHandle.transform, false);
@@ -22,20 +22,20 @@ namespace Shtif.RuntimeTransformHandle
             
             if (_parentTransformHandle.Axes is HandleAxes.X or HandleAxes.XY or HandleAxes.XZ or HandleAxes.XYZ)
                 _axes.Add(CreateScaleAxis()
-                    .Construct(cam, _parentTransformHandle, Vector3.right, Color.red));
+                    .Construct(cam, _parentTransformHandle, Vector3.right, Color.red, shader));
             
             if (_parentTransformHandle.Axes is HandleAxes.Y or HandleAxes.XY or HandleAxes.YZ or HandleAxes.XYZ)
                 _axes.Add(CreateScaleAxis()
-                    .Construct(cam, _parentTransformHandle, Vector3.up, Color.green));
+                    .Construct(cam, _parentTransformHandle, Vector3.up, Color.green, shader));
 
             if (_parentTransformHandle.Axes is HandleAxes.Z or HandleAxes.XZ or HandleAxes.YZ or HandleAxes.XYZ)
                 _axes.Add(CreateScaleAxis()
-                    .Construct(cam, _parentTransformHandle, Vector3.forward, Color.blue));
+                    .Construct(cam, _parentTransformHandle, Vector3.forward, Color.blue, shader));
 
             if (_parentTransformHandle.Axes != HandleAxes.X && _parentTransformHandle.Axes != HandleAxes.Y && _parentTransformHandle.Axes != HandleAxes.Z)
             {
                 _globalAxis = CreateGameObject().AddComponent<ScaleGlobal>()
-                    .Construct(_parentTransformHandle, HandleBase.GetVectorFromAxes(_parentTransformHandle.Axes), Color.white);
+                    .Construct(_parentTransformHandle, HandleBase.GetVectorFromAxes(_parentTransformHandle.Axes), Color.white, shader);
                 
                 _globalAxis.InteractionStart += OnGlobalInteractionStart;
                 _globalAxis.InteractionUpdate += OnGlobalInteractionUpdate;

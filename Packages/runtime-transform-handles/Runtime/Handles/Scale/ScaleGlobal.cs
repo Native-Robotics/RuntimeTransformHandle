@@ -7,13 +7,13 @@ namespace Shtif.RuntimeTransformHandle
         private Vector3 _axis;
         private Vector3 _startScale;
         
-        public ScaleGlobal Construct(RuntimeTransformHandle parentTransformHandle, Vector3 axis, Color color)
+        public ScaleGlobal Construct(RuntimeTransformHandle parentTransformHandle, Vector3 axis, Color color, Shader shader)
         {
             ParentTransformHandle = parentTransformHandle;
             _axis = axis;
             DefaultColor = color;
             
-            InitializeMaterial();
+            InitializeMaterial(shader);
 
             transform.SetParent(parentTransformHandle.transform, false);
 

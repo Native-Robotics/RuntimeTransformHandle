@@ -9,7 +9,7 @@ namespace Shtif.RuntimeTransformHandle
         private List<RotationAxis> _axes;
         private Camera _cam;
 
-        public RotationHandle Construct(Camera cam, RuntimeTransformHandle parentTransformHandle)
+        public RotationHandle Construct(Camera cam, RuntimeTransformHandle parentTransformHandle, Shader shader)
         {
             _cam = cam;
             _parentTransformHandle = parentTransformHandle;
@@ -19,15 +19,15 @@ namespace Shtif.RuntimeTransformHandle
             
             if (_parentTransformHandle.Axes is HandleAxes.X or HandleAxes.XY or HandleAxes.XZ or HandleAxes.XYZ)
                 _axes.Add(CreateRotationAxis()
-                    .Construct(_cam, _parentTransformHandle, Vector3.right, Color.red));
+                    .Construct(_cam, _parentTransformHandle, Vector3.right, Color.red, shader));
             
             if (_parentTransformHandle.Axes is HandleAxes.Y or HandleAxes.XY or HandleAxes.YZ or HandleAxes.XYZ)
                 _axes.Add(CreateRotationAxis()
-                    .Construct(_cam, _parentTransformHandle, Vector3.up, Color.green));
+                    .Construct(_cam, _parentTransformHandle, Vector3.up, Color.green, shader));
 
             if (_parentTransformHandle.Axes is HandleAxes.Z or HandleAxes.YZ or HandleAxes.XZ or HandleAxes.XYZ)
                 _axes.Add(CreateRotationAxis()
-                    .Construct(_cam, _parentTransformHandle, Vector3.forward, Color.blue));
+                    .Construct(_cam, _parentTransformHandle, Vector3.forward, Color.blue, shader));
 
             return this;
         }

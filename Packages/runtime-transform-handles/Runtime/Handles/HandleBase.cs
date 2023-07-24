@@ -20,9 +20,9 @@ namespace Shtif.RuntimeTransformHandle
 
         public float delta;
 
-        protected virtual void InitializeMaterial()
+        protected virtual void InitializeMaterial(Shader shader)
         {
-            Material = new Material(Shader.Find("sHTiF/HandleShader"));
+            Material = new Material(shader);
             Material.color = DefaultColor;
         }
         

@@ -11,14 +11,14 @@ namespace Shtif.RuntimeTransformHandle
         private Ray _raxisRay;
         private Camera _cam;
 
-        public PositionAxis Construct(Camera cam, RuntimeTransformHandle parentTransformHandle, Vector3 axis, Color color)
+        public PositionAxis Construct(Camera cam, RuntimeTransformHandle parentTransformHandle, Vector3 axis, Color color, Shader shader)
         {
             _cam = cam;
             ParentTransformHandle = parentTransformHandle;
             _axis = axis;
             DefaultColor = color;
 
-            InitializeMaterial();
+            InitializeMaterial(shader);
 
             transform.SetParent(parentTransformHandle.transform, false);
 

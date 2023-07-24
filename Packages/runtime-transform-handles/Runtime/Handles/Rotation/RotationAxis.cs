@@ -18,14 +18,14 @@ namespace Shtif.RuntimeTransformHandle
         private Quaternion _startRotation;
         private Camera _cam;
 
-        public RotationAxis Construct(Camera cam, RuntimeTransformHandle pRuntimeHandle, Vector3 pAxis, Color pColor)
+        public RotationAxis Construct(Camera cam, RuntimeTransformHandle pRuntimeHandle, Vector3 pAxis, Color pColor, Shader pShader)
         {
             _cam = cam;
             ParentTransformHandle = pRuntimeHandle;
             _axis = pAxis;
             DefaultColor = pColor;
 
-            InitializeMaterial();
+            InitializeMaterial(pShader);
 
             transform.SetParent(pRuntimeHandle.transform, false);
 
@@ -41,9 +41,9 @@ namespace Shtif.RuntimeTransformHandle
             return this;
         }
 
-        protected override void InitializeMaterial()
+        protected override void InitializeMaterial(Shader shader)
         {
-            Material = new Material(Shader.Find("sHTiF/AdvancedHandleShader"));
+            Material = new Material(shader);
             Material.color = DefaultColor;
         }
 
